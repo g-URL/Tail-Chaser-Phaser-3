@@ -3,11 +3,12 @@
     
 <head>
     <!-- https://www.html5gamedevs.com/topic/36755-really-basic-setup-question/ -->
-    <!-- removed .js files from dist for now, using CDN instead -->
-    <!-- <script src="dist/phaser-arcade-physics.min.js"></script> -->
-    
+    <!-- using local instead for IDE autocompletion -->
+    <script src="lib/phaser-arcade-physics.min.js"></script>
+
     <!-- https://www.jsdelivr.com/package/gh/photonstorm/phaser?version=3.24.1&path=dist -->
-    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
+    <!-- use CDN later -->
+    <!-- <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser-arcade-physics.min.js"></script> -->
 </head>
 <body style="background-color:grey;">
     <script>
@@ -31,6 +32,7 @@
             }
         };
 
+        
         var game = new Phaser.Game(config);
 
         function preload ()
