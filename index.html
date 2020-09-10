@@ -1,78 +1,16 @@
 <!DOCTYPE html>
 <html>
-    
 <head>
-    <!-- https://www.html5gamedevs.com/topic/36755-really-basic-setup-question/ -->
-    <!-- using local instead for IDE autocompletion -->
-    <script src="lib/phaser-arcade-physics.min.js"></script>
+    <meta charset="UTF-8">
 
     <!-- https://www.jsdelivr.com/package/gh/photonstorm/phaser?version=3.24.1&path=dist -->
-    <!-- use CDN later -->
-    <!-- <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser-arcade-physics.min.js"></script> -->
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser-arcade-physics.min.js"></script>
+    
+    <script src="Menu.js"></script>
+    <!-- <script src="GameStart.js"></script> -->
+    <script src="GameOver.js"></script>
+    <script src="main.js"></script>
 </head>
-<body style="background-color:grey;">
-    <script>
-        
-        var width = 640;
-        var center = width/2;
-
-        var config = {
-            type: Phaser.AUTO,
-            width: width,
-            height: width,
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: { y: 200 }
-                }
-            },
-            scene: {
-                preload: preload,
-                create: create
-            }
-        };
-
-        
-        var game = new Phaser.Game(config);
-
-        function preload ()
-        {
-            // https://www.codeandweb.com/free-sprite-sheet-packer
-            this.load.atlas('board', 'assets/sprites/board.png', 'assets/sprites/board.json');
-            this.load.atlas('menu', 'assets/sprites/menu.png', 'assets/sprites/menu.json');
-            this.load.atlas('mother', 'assets/sprites/mother.png', 'assets/sprites/mother.json');
-
-            //this.load.spritesheet('buttons', 'assets/sprites/buttons.png', { frameWidth: 384, frameHeight: 128 });            
-
-            //this.load.setBaseURL('http://labs.phaser.io');
-            //this.load.image('sky', 'assets/skies/space3.png');
-            //this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-            //this.load.image('red', 'assets/particles/red.png');
-
-
-
-        }
-
-
-        function create ()
-        {
-            this.board = this.add.image(center, center, 'board', 'board.png');
-            this.title = this.add.image(center, center - 120, 'menu', 'game_title.png');
-
-            // https://www.html5gamedevs.com/topic/36850-solvederror-thisaddbutton-is-not-a-function/
-            this.newGameButton = this.add.image(center, center + 100, 'menu', 'new_game_0.png').setInteractive();
-            this.newGameButton.on('pointerover', function() { this.setFrame('new_game_1.png'); });
-            this.newGameButton.on('pointerout', function() { this.setFrame('new_game_0.png'); });
-            //this.newGAmeButton.on('pointerdown', startGame);
-
-
-            var logo = this.physics.add.image(400, 100, 'mother', 'mother_south_0.png');
-
-            logo.setVelocity(100, 200);
-            logo.setBounce(1, 1);
-            logo.setCollideWorldBounds(true);
-        }
-    </script>
-
+<body>
 </body>
 </html>
