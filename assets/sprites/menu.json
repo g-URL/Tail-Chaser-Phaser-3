@@ -1,0 +1,95 @@
+{
+	"frames": {
+		"game_over.png": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 416,
+				"h": 320
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 416,
+				"h": 320
+			},
+			"sourceSize": {
+				"w": 416,
+				"h": 320
+			}
+		},
+		"game_title.png": {
+			"frame": {
+				"x": 1,
+				"y": 323,
+				"w": 448,
+				"h": 288
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 448,
+				"h": 288
+			},
+			"sourceSize": {
+				"w": 448,
+				"h": 288
+			}
+		},
+		"new_game_0.png": {
+			"frame": {
+				"x": 1,
+				"y": 613,
+				"w": 384,
+				"h": 128
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 128
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 128
+			}
+		},
+		"new_game_1.png": {
+			"frame": {
+				"x": 1,
+				"y": 743,
+				"w": 384,
+				"h": 128
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 384,
+				"h": 128
+			},
+			"sourceSize": {
+				"w": 384,
+				"h": 128
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 450,
+			"h": 872
+		},
+		"scale": "1"
+	}
+}
