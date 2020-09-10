@@ -2,7 +2,12 @@
 <html>
     
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
+    <!-- https://www.html5gamedevs.com/topic/36755-really-basic-setup-question/ -->
+    <!-- removed .js files from dist for now, using CDN instead -->
+    <!-- <script src="dist/phaser-arcade-physics.min.js"></script> -->
+    
+    <!-- https://www.jsdelivr.com/package/gh/photonstorm/phaser?version=3.24.1&path=dist -->
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
 </head>
 <body style="background-color:grey;">
     <script>
@@ -31,8 +36,9 @@
         function preload ()
         {
             // https://www.codeandweb.com/free-sprite-sheet-packer
-            this.load.atlas('board', 'assets/sprites/board.png', 'assets/sprites/board.json');          
+            this.load.atlas('board', 'assets/sprites/board.png', 'assets/sprites/board.json');
             this.load.atlas('menu', 'assets/sprites/menu.png', 'assets/sprites/menu.json');
+            this.load.atlas('mother', 'assets/sprites/mother.png', 'assets/sprites/mother.json');
 
             //this.load.spritesheet('buttons', 'assets/sprites/buttons.png', { frameWidth: 384, frameHeight: 128 });            
 
@@ -58,21 +64,11 @@
             //this.newGAmeButton.on('pointerdown', startGame);
 
 
-            var particles = this.add.particles('red');
-
-            var emitter = particles.createEmitter({
-                speed: 100,
-                scale: { start: 1, end: 0 },
-                blendMode: 'ADD'
-            });
-
-            var logo = this.physics.add.image(400, 100, 'logo');
+            var logo = this.physics.add.image(400, 100, 'mother', 'mother_south_0.png');
 
             logo.setVelocity(100, 200);
             logo.setBounce(1, 1);
             logo.setCollideWorldBounds(true);
-
-            emitter.startFollow(logo);
         }
     </script>
 
