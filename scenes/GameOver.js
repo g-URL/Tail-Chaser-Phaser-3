@@ -1,8 +1,8 @@
-/// <reference path="../ts/phaser.d.ts"/>
+/// <reference path='../ts/phaser.d.ts'/>
 
 class GameOver extends Phaser.Scene {
     constructor() {
-        super({key:"GameOver"});
+        super({key:'GameOver'});
     }
 
     preload ()
@@ -21,6 +21,9 @@ class GameOver extends Phaser.Scene {
         this.newGameButton = this.add.image(320, 320 + 150, 'menu', 'new_game_0.png').setInteractive();
         this.newGameButton.on('pointerover', function() { this.setFrame('new_game_1.png'); });
         this.newGameButton.on('pointerout', function() { this.setFrame('new_game_0.png'); });
-        this.newGameButton.on('pointerdown', function() { this.scene.start("Menu"); }, this);
+        this.newGameButton.on('pointerdown', function() { this.scene.start('Menu'); }, this);
+
+        this.keyObj = this.input.keyboard.addKey('ENTER');
+        this.keyObj.on('down', function() { this.scene.start('Menu'); }, this);
     }
 } 

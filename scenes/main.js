@@ -1,4 +1,4 @@
-/// <reference path="../ts/phaser.d.ts"/>
+/// <reference path='../ts/phaser.d.ts'/>
 
 var config = {
     type: Phaser.AUTO,
@@ -10,7 +10,7 @@ var config = {
             gravity: { y: 200 }
         }
     },
-    scene: [ Menu, GameOver ]
+    scene: [Menu, GameStart, GameOver]
 };
 
 var game = new Phaser.Game(config);
