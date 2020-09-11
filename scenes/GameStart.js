@@ -64,8 +64,8 @@ class GameStart extends Phaser.Scene {
 
         // mother
         this.mother = this.add.sprite(320, 320);
-        this.mother.play('mother_south');
-
+        this.previousDirection = 'mother_south';
+        
         // https://youtu.be/7cpZ5Y7THmo?t=918
         this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -87,7 +87,6 @@ class GameStart extends Phaser.Scene {
         this.keyObj.on('down', function() { this.scene.start('GameOver'); }, this);
 
 
-
         this.tunnelTop = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_top.png');
 
 
@@ -95,25 +94,29 @@ class GameStart extends Phaser.Scene {
 
     update()
     {
+        this.direction = this.previousDirection;
+
         if (this.wKey.isDown) {
             this.mother.y--;
-            this.mother.play('mother_north');
+            this.direction = 'mother_north';
         }
-
-        if (this.aKey.isDown) {
+        
+        else if (this.aKey.isDown) {
             this.mother.x--;
-            this.mother.play('mother_west');
+            this.direction = 'mother_west';
         }
 
-        if (this.sKey.isDown) {
+        else if (this.sKey.isDown) {
             this.mother.y++;
-            this.mother.play('mother_south');
+            this.direction = 'mother_south';
         }
 
-        if (this.dKey.isDown) {
+        else if (this.dKey.isDown) {
             this.mother.x++;
-            this.mother.play('mother_east');
+            this.direction = 'mother_east';
         }
 
+        this.mother.play(this.direction, this);
+        this.previousDirection = this.direction;
     }
 } 
