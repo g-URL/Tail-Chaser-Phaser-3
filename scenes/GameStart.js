@@ -18,20 +18,20 @@ class GameStart extends Phaser.Scene {
         this.add.image(320, 320, 'board', 'board.png');
 
         // obstacles
-        this.rightWall = this.add.sprite(640-(32/2), 320, 'obstacles', 'board_edge_right.png');
-        this.leftWall = this.add.sprite(0+(32/2), 320, 'obstacles', 'board_edge_left.png');
-        this.topWall = this.add.sprite(320, 0+(32/2), 'obstacles', 'board_edge_top.png');
-        this.bottomWall = this.add.sprite(320, 640-(32/2), 'obstacles', 'board_edge_bottom.png');
+        this.rightWall = this.physics.add.sprite(640-(32/2), 320, 'obstacles', 'board_edge_right.png');
+        this.leftWall = this.physics.add.sprite(0+(32/2), 320, 'obstacles', 'board_edge_left.png');
+        this.topWall = this.physics.add.sprite(320, 0+(32/2), 'obstacles', 'board_edge_top.png');
+        this.bottomWall = this.physics.add.sprite(320, 640-(32/2), 'obstacles', 'board_edge_bottom.png');
 
-        this.litter = this.add.sprite(640-130, 0+98, 'obstacles', 'litter.png');
+        this.litter = this.physics.add.sprite(640-130, 0+98, 'obstacles', 'litter.png');
 
         this.tunnelBottom = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_bottom.png');
-        this.tunnelLeftEdge = this.add.sprite(320-128-(126/2)+3, 320-32, 'obstacles', 'tunnel_left.png');
-        this.tunnelRightEdge = this.add.sprite(320-128+(126/2)-3, 320-32, 'obstacles', 'tunnel_right.png');
+        this.tunnelLeftEdge = this.physics.add.sprite(320-128-(126/2)+3, 320-32, 'obstacles', 'tunnel_left.png');
+        this.tunnelRightEdge = this.physics.add.sprite(320-128+(126/2)-3, 320-32, 'obstacles', 'tunnel_right.png');
 
-        this.yarn = this.add.sprite(320+128, 320+128, 'obstacles', 'yarn.png');
+        this.yarn = this.physics.add.sprite(320+128, 320+128, 'obstacles', 'yarn.png');
 
-        this.foodBowl = this.add.sprite(0+116, 640-84, 'obstacles', 'food_bowl.png');
+        this.foodBowl = this.physics.add.sprite(0+116, 640-84, 'obstacles', 'food_bowl.png');
 
         // https://labs.phaser.io/edit.html?src=src\animation\create%20animation%20from%20sprite%20sheet.js
         this.anims.create({
@@ -63,7 +63,8 @@ class GameStart extends Phaser.Scene {
         });
 
         // mother
-        this.mother = this.add.sprite(320, 320);
+        this.mother = this.physics.add.sprite(320, 320);
+        //this.mother = this.add.sprite(320, 320);
         this.direction = 'mother_south';
         
         // https://youtu.be/7cpZ5Y7THmo?t=918
@@ -80,14 +81,10 @@ class GameStart extends Phaser.Scene {
         this.keyObj = this.input.keyboard.addKey('ENTER');
         this.keyObj.on('down', function() { this.scene.start('GameOver'); }, this);
 
-        
 
         this.tunnelTop = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_top.png');
 
         this.obstacles = this.physics.add.group();
-        this.motherCat = this.physics.add.group();
-
-        this.motherCat.add(this.mother, this);
         this.obstacles.addMultiple([this.leftWall,
                                     this.rightWall,
                                     this.topWall,
@@ -103,7 +100,7 @@ class GameStart extends Phaser.Scene {
     update()
     {
 
-        this.physics.collide(this.motherCat, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
+        this.physics.collide(this.mother, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
 
 
         if (this.wKey.isDown || this.upKey.isDown) {
