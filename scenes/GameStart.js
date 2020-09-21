@@ -63,8 +63,8 @@ class GameStart extends Phaser.Scene {
         });
 
         // mother
-        this.mother = this.physics.add.sprite(320, 320);
-        //this.mother = this.add.sprite(320, 320);
+        //this.mother = this.physics.add.sprite(320, 320);
+        this.mother = new CatNode(this, 320, 320);
         this.direction = 'mother_south';
         
         // https://youtu.be/7cpZ5Y7THmo?t=918
