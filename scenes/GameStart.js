@@ -10,11 +10,15 @@ class GameStart extends Phaser.Scene {
         // https://www.codeandweb.com/free-sprite-sheet-packer
         this.load.atlas('board', 'assets/sprites/board.png', 'assets/sprites/board.json');
         this.load.atlas('obstacles', 'assets/sprites/obstacles.png', 'assets/sprites/obstacles.json');
-        this.load.atlas('mother', 'assets/sprites/mother.png', 'assets/sprites/mother.json');
+        this.load.atlas('cats', 'assets/sprites/cats.png', 'assets/sprites/cats.json');
     }
 
     create ()
     {
+        
+        this.cardinalDirections = ['north', 'east', 'south', 'west'];
+        this.kittenColours = ['orange'];
+        
         this.add.image(320, 320, 'board', 'board.png');
 
         // obstacles
@@ -36,36 +40,64 @@ class GameStart extends Phaser.Scene {
         // https://labs.phaser.io/edit.html?src=src\animation\create%20animation%20from%20sprite%20sheet.js
         this.anims.create({
             key: 'mother_north',
-            frames: this.anims.generateFrameNumbers('mother', {  frames: ['mother_north_0.png', 'mother_north_1.png'] }),
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['mother_north_0.png', 'mother_north_1.png'] }),
             frameRate: 5,
             repeat: -1
         });
 
         this.anims.create({
             key: 'mother_south',
-            frames: this.anims.generateFrameNumbers('mother', {  frames: ['mother_south_0.png', 'mother_south_1.png'] }),
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['mother_south_0.png', 'mother_south_1.png'] }),
             frameRate: 5,
             repeat: -1
         });
 
         this.anims.create({
             key: 'mother_east',
-            frames: this.anims.generateFrameNumbers('mother', {  frames: ['mother_east_0.png', 'mother_east_1.png'] }),
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['mother_east_0.png', 'mother_east_1.png'] }),
             frameRate: 5,
             repeat: -1
         });
 
         this.anims.create({
             key: 'mother_west',
-            frames: this.anims.generateFrameNumbers('mother', {  frames: ['mother_west_0.png', 'mother_west_1.png'] }),
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['mother_west_0.png', 'mother_west_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_orange_north',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_north_0.png', 'kitten_orange_north_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_orange_south',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_south_0.png', 'kitten_orange_south_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_orange_east',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_east_0.png', 'kitten_orange_east_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_orange_west',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_west_0.png', 'kitten_orange_west_1.png'] }),
             frameRate: 5,
             repeat: -1
         });
 
         // mother
         //this.mother = this.physics.add.sprite(320, 320);
-        this.mother = new CatNode(this, 320, 320);
-        this.direction = 'mother_south';
+        this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'mother_south');
+        this.direction = this.mother.direction;
         
         // https://youtu.be/7cpZ5Y7THmo?t=918
         this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -84,6 +116,9 @@ class GameStart extends Phaser.Scene {
 
         this.tunnelTop = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_top.png');
 
+        this.kittens = this.physics.add.group();
+        this.clowder = this.physics.add.group();
+
         this.obstacles = this.physics.add.group();
         this.obstacles.addMultiple([this.leftWall,
                                     this.rightWall,
@@ -101,6 +136,31 @@ class GameStart extends Phaser.Scene {
     {
 
         this.physics.collide(this.mother, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
+
+
+       // this.kittens.add(this.mother, this);
+
+
+        if (this.kittens.countActive() == 0) {
+            for (this.i = 0; this.i < 5; this.i++) {
+
+                // USE AN OBJECT LIKE THAT GUY
+                this.coordinateX = Phaser.Math.Between(-600, 600);
+                this.coordinateY = Phaser.Math.Between(-600, 600);
+
+                this.kittenDescription = 'kitten_'.concat(this.kittenColours[0], '_', this.cardinalDirections[Phaser.Math.Between(0,3)]);
+
+                this.kittens.add(new CatNode(this, 
+                                             Phaser.Math.Between(0, 600), 
+                                             Phaser.Math.Between(0, 600), 
+                                             'cats', 
+                                             this.kittenDescription.concat('_0.png'), 
+                                             this.kittenDescription),
+                                             this);
+
+            }
+        }
+
 
 
         if (this.wKey.isDown || this.upKey.isDown) {
@@ -123,6 +183,8 @@ class GameStart extends Phaser.Scene {
             this.direction = 'mother_east';
         }
 
-        this.mother.play(this.direction, this);
+        this.mother.direction = this.direction;
+        this.mother.update();
+
     }
 } 
