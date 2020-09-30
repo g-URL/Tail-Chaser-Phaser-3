@@ -161,9 +161,19 @@ class GameStart extends Phaser.Scene {
                 for (this.j = 0; this.j < this.obstacles.getLength(); this.j++){
                     console.log("a", this.j);
 
-                    if (this.obstacles.getChildren()[this.j].getBounds().contains(this.coordinateX, this.coordinateY)) {
+                    console.log(this.obstacles.getChildren()[this.j].x);
+
+                    while (this.obstacles.getChildren()[this.j].getBounds().contains(this.kitten.x, this.kitten.y) || this.mother.getBounds().contains(this.kitten.x, this.kitten.y)) {
                         console.log("COLLISSIOOOONNNN");
+                        this.kitten.x = Phaser.Math.Between(0, 600);
+                        this.kitten.y = Phaser.Math.Between(0, 600);
                     }
+
+                    // if (this.obstacles.getChildren()[this.j].getBounds().contains(this.coordinateX, this.coordinateY)) {
+                    //     this.collision = true;
+                    //     while (this.collision)
+                    //     console.log("COLLISSIOOOONNNN");
+                    // }
                 }
 
                 this.kittens.add(this.kitten, this);
