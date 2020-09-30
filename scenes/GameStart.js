@@ -95,7 +95,8 @@ class GameStart extends Phaser.Scene {
         });
 
         // mother
-        //this.mother = this.physics.add.sprite(320, 320);
+        this.brother = this.physics.add.sprite(320, 320);
+        console.log("hello", this.brother.getBounds().contains(20,20));
         this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'mother_south');
         this.direction = this.mother.direction;
         
@@ -132,32 +133,47 @@ class GameStart extends Phaser.Scene {
                                     this);
     }
 
-    update()
+    update(time, delta)
     {
 
         this.physics.collide(this.mother, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
+       // console.log(this.physics.collide(this.mother, this.kittens, function() { this.scene.start('GameOver'); }, null, this));
+        console.log(this.physics.collide(this.kittens, this.obstacles, null, null, this));
 
-
-       // this.kittens.add(this.mother, this);
-
+       // this.kittens.add(this.mother, this)
 
         if (this.kittens.countActive() == 0) {
             for (this.i = 0; this.i < 5; this.i++) {
 
-                // USE AN OBJECT LIKE THAT GUY
-                this.coordinateX = Phaser.Math.Between(-600, 600);
-                this.coordinateY = Phaser.Math.Between(-600, 600);
+                console.log(this.i);
+                this.coordinateX = Phaser.Math.Between(0, 600);
+                this.coordinateY = Phaser.Math.Between(0, 600);
 
                 this.kittenDescription = 'kitten_'.concat(this.kittenColours[0], '_', this.cardinalDirections[Phaser.Math.Between(0,3)]);
+                this.kitten = new CatNode(this, 
+                                        this.coordinateX, 
+                                        this.coordinateY,
+                                        'cats', 
+                                        this.kittenDescription.concat('_0.png'), 
+                                        this.kittenDescription);
 
-                this.kittens.add(new CatNode(this, 
-                                             Phaser.Math.Between(0, 600), 
-                                             Phaser.Math.Between(0, 600), 
-                                             'cats', 
-                                             this.kittenDescription.concat('_0.png'), 
-                                             this.kittenDescription),
-                                             this);
 
+                for (this.j = 0; this.j < this.obstacles.getLength(); this.j++){
+                    console.log("a", this.j);
+
+                    if (this.obstacles.getChildren()[this.j].getBounds().contains(this.coordinateX, this.coordinateY)) {
+                        console.log("COLLISSIOOOONNNN");
+                    }
+                }
+
+                this.kittens.add(this.kitten, this);
+                this.kittens.preUpdate(this.time, this.delta);
+                this.obstacles.preUpdate(time, delta);
+
+                console.log(this.physics.overlap(this.kittens, this.obstacles, null, null, this));
+
+
+                
             }
         }
 
