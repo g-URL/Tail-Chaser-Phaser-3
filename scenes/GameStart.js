@@ -146,8 +146,8 @@ class GameStart extends Phaser.Scene {
             for (this.i = 0; this.i < 5; this.i++) {
 
                 console.log(this.i);
-                this.coordinateX = Phaser.Math.Between(0, 600);
-                this.coordinateY = Phaser.Math.Between(0, 600);
+                this.coordinateX = Phaser.Math.Between(32, 568);
+                this.coordinateY = Phaser.Math.Between(32, 568);
 
                 this.kittenDescription = 'kitten_'.concat(this.kittenColours[0], '_', this.cardinalDirections[Phaser.Math.Between(0,3)]);
                 this.kitten = new CatNode(this, 
@@ -158,23 +158,34 @@ class GameStart extends Phaser.Scene {
                                         this.kittenDescription);
 
 
-                for (this.j = 0; this.j < this.obstacles.getLength(); this.j++){
-                    console.log("a", this.j);
-
-                    console.log(this.obstacles.getChildren()[this.j].x);
-
-                    while (this.obstacles.getChildren()[this.j].getBounds().contains(this.kitten.x, this.kitten.y) || this.mother.getBounds().contains(this.kitten.x, this.kitten.y)) {
-                        console.log("COLLISSIOOOONNNN");
-                        this.kitten.x = Phaser.Math.Between(0, 600);
-                        this.kitten.y = Phaser.Math.Between(0, 600);
+                this.collision = true;
+                while (this.collision) {
+                    this.collision = false;
+                    for (this.k = 0; this.k < this.obstacles.getLength(); this.k++) {
+                        if (this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x+16, this.kitten.y+16) ||
+                            this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x+16, this.kitten.y-16) ||
+                            this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x-16, this.kitten.y+16) ||
+                            this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x-16, this.kitten.y-16)) {
+                                this.collision = true;
+                                this.kitten.x = Phaser.Math.Between(32, 568);
+                                this.kitten.y = Phaser.Math.Between(32, 568);
+                        }
                     }
-
-                    // if (this.obstacles.getChildren()[this.j].getBounds().contains(this.coordinateX, this.coordinateY)) {
-                    //     this.collision = true;
-                    //     while (this.collision)
-                    //     console.log("COLLISSIOOOONNNN");
-                    // }
                 }
+            }
+
+
+                // for (this.j = 0; this.j < this.obstacles.getLength(); this.j++){
+                //     console.log("a", this.j);
+
+                //     console.log(this.obstacles.getChildren()[this.j].x);
+
+                //     while (this.obstacles.getChildren()[this.j].getBounds().contains(this.kitten.x, this.kitten.y) || this.mother.getBounds().contains(this.kitten.x, this.kitten.y)) {
+                //         console.log("COLLISSIOOOONNNN");
+                //         this.kitten.x = Phaser.Math.Between(32, 568);
+                //         this.kitten.y = Phaser.Math.Between(32, 568);
+                //     }
+                // }
 
                 this.kittens.add(this.kitten, this);
                 this.kittens.preUpdate(this.time, this.delta);
@@ -183,8 +194,8 @@ class GameStart extends Phaser.Scene {
                 console.log(this.physics.overlap(this.kittens, this.obstacles, null, null, this));
 
 
-                
-            }
+            
+            
         }
 
 
