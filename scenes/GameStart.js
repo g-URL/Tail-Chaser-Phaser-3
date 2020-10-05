@@ -142,6 +142,9 @@ class GameStart extends Phaser.Scene {
 
        // this.kittens.add(this.mother, this)
 
+       console.log(this.kittens.countActive());
+       console.log(this.clowder.countActive());
+
         if (this.kittens.countActive() == 0) {
             for (this.i = 0; this.i < 5; this.i++) {
 
@@ -162,40 +165,28 @@ class GameStart extends Phaser.Scene {
                 while (this.collision) {
                     this.collision = false;
                     for (this.k = 0; this.k < this.obstacles.getLength(); this.k++) {
-                        if (this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x+16, this.kitten.y+16) ||
+                        if (this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x, this.kitten.y) ||
+                            this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x+16, this.kitten.y+16) ||
                             this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x+16, this.kitten.y-16) ||
                             this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x-16, this.kitten.y+16) ||
                             this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x-16, this.kitten.y-16)) {
-                                this.collision = true;
-                                this.kitten.x = Phaser.Math.Between(32, 568);
-                                this.kitten.y = Phaser.Math.Between(32, 568);
+
+                            this.collision = true;
+                            this.kitten.x = Phaser.Math.Between(32, 568);
+                            this.kitten.y = Phaser.Math.Between(32, 568);
                         }
                     }
                 }
-            }
-
-
-                // for (this.j = 0; this.j < this.obstacles.getLength(); this.j++){
-                //     console.log("a", this.j);
-
-                //     console.log(this.obstacles.getChildren()[this.j].x);
-
-                //     while (this.obstacles.getChildren()[this.j].getBounds().contains(this.kitten.x, this.kitten.y) || this.mother.getBounds().contains(this.kitten.x, this.kitten.y)) {
-                //         console.log("COLLISSIOOOONNNN");
-                //         this.kitten.x = Phaser.Math.Between(32, 568);
-                //         this.kitten.y = Phaser.Math.Between(32, 568);
-                //     }
-                // }
 
                 this.kittens.add(this.kitten, this);
-                this.kittens.preUpdate(this.time, this.delta);
-                this.obstacles.preUpdate(time, delta);
+            }
+        }
 
-                console.log(this.physics.overlap(this.kittens, this.obstacles, null, null, this));
-
-
-            
-            
+        for (this.i = 0; this.i < this.kittens.getLength(); this.i++) {
+            if (this.physics.collide(this.kittens.getChildren()[this.i], this.mother, null, null, this)) {
+                this.clowder.add(this.kittens.getChildren()[this.i]);
+                this.kittens.remove(this.kittens.getChildren()[this.i]);
+            }
         }
 
 
