@@ -95,8 +95,6 @@ class GameStart extends Phaser.Scene {
         });
 
         // mother
-        this.brother = this.physics.add.sprite(320, 320);
-        console.log("hello", this.brother.getBounds().contains(20,20));
         this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'mother_south');
         this.direction = this.mother.direction;
         
@@ -135,20 +133,17 @@ class GameStart extends Phaser.Scene {
 
     update(time, delta)
     {
-
+        // if the mother collides with any obstacles (or her clowder - to be added later) then game over
         this.physics.collide(this.mother, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
-       // console.log(this.physics.collide(this.mother, this.kittens, function() { this.scene.start('GameOver'); }, null, this));
+        //this.physics.collide(this.mother, this.clowder, function() { this.scene.start('GameOver'); }, null, this);
+
         console.log(this.physics.collide(this.kittens, this.obstacles, null, null, this));
+        console.log(this.kittens.countActive());
+        console.log(this.clowder.countActive());
 
-       // this.kittens.add(this.mother, this)
-
-       console.log(this.kittens.countActive());
-       console.log(this.clowder.countActive());
-
+        // ensure there are always kittens on the board
         if (this.kittens.countActive() == 0) {
             for (this.i = 0; this.i < 5; this.i++) {
-
-                console.log(this.i);
                 this.coordinateX = Phaser.Math.Between(32, 568);
                 this.coordinateY = Phaser.Math.Between(32, 568);
 
@@ -160,16 +155,19 @@ class GameStart extends Phaser.Scene {
                                         this.kittenDescription.concat('_0.png'), 
                                         this.kittenDescription);
 
-
+                // place kitten such that they don't collide with existing obstacles
                 this.collision = true;
+                this.obstacle_array = this.obstacles.getChildren();
                 while (this.collision) {
                     this.collision = false;
                     for (this.k = 0; this.k < this.obstacles.getLength(); this.k++) {
-                        if (this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x, this.kitten.y) ||
-                            this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x+16, this.kitten.y+16) ||
-                            this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x+16, this.kitten.y-16) ||
-                            this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x-16, this.kitten.y+16) ||
-                            this.obstacles.getChildren()[this.k].getBounds().contains(this.kitten.x-16, this.kitten.y-16)) {
+                        this.obstacle_boundary = this.obstacle_array[this.k].getBounds();
+
+                        if (this.obstacle_boundary.contains(this.kitten.x, this.kitten.y) ||
+                            this.obstacle_boundary.contains(this.kitten.x+16, this.kitten.y+16) ||
+                            this.obstacle_boundary.contains(this.kitten.x+16, this.kitten.y-16) ||
+                            this.obstacle_boundary.contains(this.kitten.x-16, this.kitten.y+16) ||
+                            this.obstacle_boundary.contains(this.kitten.x-16, this.kitten.y-16)) {
 
                             this.collision = true;
                             this.kitten.x = Phaser.Math.Between(32, 568);
@@ -182,10 +180,13 @@ class GameStart extends Phaser.Scene {
             }
         }
 
+        // if a mother picks up a kitten remove from kitten group and add to clowder group
+        this.kitten_array = this.kittens.getChildren();
         for (this.i = 0; this.i < this.kittens.getLength(); this.i++) {
-            if (this.physics.collide(this.kittens.getChildren()[this.i], this.mother, null, null, this)) {
-                this.clowder.add(this.kittens.getChildren()[this.i]);
-                this.kittens.remove(this.kittens.getChildren()[this.i]);
+            this.kitten = this.kitten_array[this.i];
+            if (this.physics.collide(this.kitten, this.mother, null, null, this)) {
+                this.clowder.add(this.kitten);
+                this.kittens.remove(this.kitten);
             }
         }
 
