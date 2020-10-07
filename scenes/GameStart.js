@@ -203,37 +203,28 @@ class GameStart extends Phaser.Scene {
                     this.mother.tail = this.kitten;
                 }
 
+                if (this.kitten.direction == 'mother_north') {
+                    this.kitten.x = this.kitten.previous.x;
+                    this.kitten.y = this.kitten.previous.y + 32;
+                } 
+                
+                else if (this.kitten.direction == 'mother_west') {
+                    this.kitten.x = this.kitten.previous.x + 32;
+                    this.kitten.y = this.kitten.previous.y;
+                }
+    
+                else if (this.kitten.direction == 'mother_south') {
+                    this.kitten.x = this.kitten.previous.x;
+                    this.kitten.y = this.kitten.previous.y - 32;
+                }
+    
+                else if (this.kitten.direction == 'mother_east') {
+                    this.kitten.x = this.kitten.previous.x - 32;
+                    this.kitten.y = this.kitten.previous.y;
+                }  
+
             }
         }
-
-        this.cat = this.mother.tail;
-        while (this.cat != null && this.cat.previous != null) {
-            console.log("testestestest");
-            this.cat.direction = this.cat.previous.direction;
-
-            if (this.cat.direction == 'mother_north') {
-                this.cat.x = this.cat.previous.x;
-                this.cat.y = this.cat.previous.y + 32;
-            } 
-            
-            else if (this.cat.direction == 'mother_west') {
-                this.cat.x = this.cat.previous.x + 32;
-                this.cat.y = this.cat.previous.y;
-            }
-
-            else if (this.cat.direction == 'mother_south') {
-                this.cat.x = this.cat.previous.x;
-                this.cat.y = this.cat.previous.y - 32;
-            }
-
-            else if (this.cat.direction == 'mother_east') {
-                this.cat.x = this.cat.previous.x - 32;
-                this.cat.y = this.cat.previous.y;
-            }       
-            this.cat.update();
-            this.cat = this.cat.previous;
-        }
-
 
         // if a key is pressed
         if (this.wKey.isDown || this.upKey.isDown) {
@@ -279,8 +270,38 @@ class GameStart extends Phaser.Scene {
             }
         }
 
+
         this.mother.direction = this.direction;
         this.mother.update();
+
+        this.cat = this.mother.tail;
+        while (this.cat != null && this.cat.previous != null) {
+            console.log("testestestest");
+            this.cat.direction = this.cat.previous.direction;
+
+            if (this.cat.direction == 'mother_north') {
+                this.cat.x = this.cat.previous.x;
+                this.cat.y--;
+            } 
+            
+            else if (this.cat.direction == 'mother_west') {
+                this.cat.x--;
+                this.cat.y = this.cat.previous.y;
+            }
+
+            else if (this.cat.direction == 'mother_south') {
+                this.cat.x = this.cat.previous.x;
+                this.cat.y++;
+            }
+
+            else if (this.cat.direction == 'mother_east') {
+                this.cat.x++;
+                this.cat.y = this.cat.previous.y;
+            }       
+            this.cat.update();
+            this.cat = this.cat.previous;
+        }
+
 
     }
 } 
