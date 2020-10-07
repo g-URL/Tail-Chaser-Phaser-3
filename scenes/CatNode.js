@@ -5,6 +5,7 @@ class CatNode extends Phaser.Physics.Arcade.Sprite {
         this.direction = direction;
         this.next = null;
         this.previous = null;
+        this.tail = null;
 
         // lines 28-30: https://github.com/photonstorm/phaser3-examples/blob/master/public/src/physics/arcade/extending%20arcade%20sprite.js
         scene.add.existing(this);

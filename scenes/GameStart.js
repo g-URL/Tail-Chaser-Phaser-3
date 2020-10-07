@@ -188,34 +188,80 @@ class GameStart extends Phaser.Scene {
             if (this.physics.collide(this.kitten, this.mother, null, null, this)) {
                 this.clowder.add(this.kitten);
                 this.kittens.remove(this.kitten);
+
+                if (this.mother.tail == null) {
+                    console.log("FIRST KITTEN");
+                    this.mother.next = this.kitten;
+                    this.kitten.previous = this.mother;
+                    this.mother.tail = this.kitten;
+                }
+
+                else {
+                    console.log("SUBSEQUENT KITTEN");
+                    this.mother.tail.next = this.kitten;
+                    this.kitten.previous = this.mother.tail;
+                    this.mother.tail = this.kitten;
+                }
+
             }
         }
 
+        this.cat = this.mother.tail;
+        while (this.cat != null && this.cat.previous != null) {
+            console.log("testestestest");
+            this.cat.direction = this.cat.previous.direction;
+
+            if (this.cat.direction == 'mother_north') {
+                this.cat.x = this.cat.previous.x;
+                this.cat.y = this.cat.previous.y + 32;
+            } 
+            
+            else if (this.cat.direction == 'mother_west') {
+                this.cat.x = this.cat.previous.x + 32;
+                this.cat.y = this.cat.previous.y;
+            }
+
+            else if (this.cat.direction == 'mother_south') {
+                this.cat.x = this.cat.previous.x;
+                this.cat.y = this.cat.previous.y - 32;
+            }
+
+            else if (this.cat.direction == 'mother_east') {
+                this.cat.x = this.cat.previous.x - 32;
+                this.cat.y = this.cat.previous.y;
+            }       
+            this.cat.update();
+            this.cat = this.cat.previous;
+        }
+
+
+        // if a key is pressed
         if (this.wKey.isDown || this.upKey.isDown) {
             this.mother.y--;
             this.direction = 'mother_north';
-            this.firstMove = false;
+            this.firstMove = false; // don't like this
         }
         
         else if (this.aKey.isDown || this.leftKey.isDown) {
             this.mother.x--;
             this.direction = 'mother_west';
-            this.firstMove = false;
+            this.firstMove = false; // don't like this
         }
 
         else if (this.sKey.isDown || this.downKey.isDown) {
             this.mother.y++;
             this.direction = 'mother_south';
-            this.firstMove = false;
+            this.firstMove = false; // don't like this
         }
 
         else if (this.dKey.isDown || this.rightKey.isDown) {
             this.mother.x++;
             this.direction = 'mother_east';
-            this.firstMove = false;
+            this.firstMove = false; // don't like this
+        }
 
         // if no key is pressed
-        } else if (!this.firstMove) {
+        else if (!this.firstMove) {
 
             if (this.direction == 'mother_north') {
                 this.mother.y--;
@@ -232,8 +278,6 @@ class GameStart extends Phaser.Scene {
                 this.mother.x++;
             }
         }
-
-
 
         this.mother.direction = this.direction;
         this.mother.update();
