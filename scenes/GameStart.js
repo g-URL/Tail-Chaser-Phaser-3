@@ -97,6 +97,7 @@ class GameStart extends Phaser.Scene {
         // mother
         this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'mother_south');
         this.direction = this.mother.direction;
+        this.firstMove = true;
         
         // https://youtu.be/7cpZ5Y7THmo?t=918
         this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -180,7 +181,7 @@ class GameStart extends Phaser.Scene {
             }
         }
 
-        // if a mother picks up a kitten remove from kitten group and add to clowder group
+        // if a mother picks up a kitten remove from kittens group and add to clowder group
         this.kitten_array = this.kittens.getChildren();
         for (this.i = 0; this.i < this.kittens.getLength(); this.i++) {
             this.kitten = this.kitten_array[this.i];
@@ -190,27 +191,49 @@ class GameStart extends Phaser.Scene {
             }
         }
 
-
-
         if (this.wKey.isDown || this.upKey.isDown) {
             this.mother.y--;
             this.direction = 'mother_north';
+            this.firstMove = false;
         }
         
         else if (this.aKey.isDown || this.leftKey.isDown) {
             this.mother.x--;
             this.direction = 'mother_west';
+            this.firstMove = false;
         }
 
         else if (this.sKey.isDown || this.downKey.isDown) {
             this.mother.y++;
             this.direction = 'mother_south';
+            this.firstMove = false;
         }
 
         else if (this.dKey.isDown || this.rightKey.isDown) {
             this.mother.x++;
             this.direction = 'mother_east';
+            this.firstMove = false;
+
+        // if no key is pressed
+        } else if (!this.firstMove) {
+
+            if (this.direction == 'mother_north') {
+                this.mother.y--;
+            }
+
+            else if (this.direction == 'mother_west') {
+                this.mother.x--;
+            }
+
+            else if (this.direction == 'mother_south') {
+                this.mother.y++;
+
+            } else {
+                this.mother.x++;
+            }
         }
+
+
 
         this.mother.direction = this.direction;
         this.mother.update();
