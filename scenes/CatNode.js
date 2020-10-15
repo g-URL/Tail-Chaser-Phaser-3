@@ -1,10 +1,10 @@
 class CatNode extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, key, frame, direction, next = null, previous = null) {
+    constructor(scene, x, y, key, frame, direction, leader = null, follower = null) {
         super(scene, x, y, key, frame);
 
         this.direction = direction;
-        this.next = null;
-        this.previous = null;
+        this.leader = null;
+        this.follower = null;
         this.tail = null;
 
         // lines 28-30: https://github.com/photonstorm/phaser3-examples/blob/master/public/src/physics/arcade/extending%20arcade%20sprite.js

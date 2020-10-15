@@ -181,50 +181,7 @@ class GameStart extends Phaser.Scene {
             }
         }
 
-        // if a mother picks up a kitten remove from kittens group and add to clowder group
-        this.kitten_array = this.kittens.getChildren();
-        for (this.i = 0; this.i < this.kittens.getLength(); this.i++) {
-            this.kitten = this.kitten_array[this.i];
-            if (this.physics.collide(this.kitten, this.mother, null, null, this)) {
-                this.clowder.add(this.kitten);
-                this.kittens.remove(this.kitten);
 
-                if (this.mother.tail == null) {
-                    console.log("FIRST KITTEN");
-                    this.mother.next = this.kitten;
-                    this.kitten.previous = this.mother;
-                    this.mother.tail = this.kitten;
-                }
-
-                else {
-                    console.log("SUBSEQUENT KITTEN");
-                    this.mother.tail.next = this.kitten;
-                    this.kitten.previous = this.mother.tail;
-                    this.mother.tail = this.kitten;
-                }
-
-                if (this.kitten.direction == 'mother_north') {
-                    this.kitten.x = this.kitten.previous.x;
-                    this.kitten.y = this.kitten.previous.y + 32;
-                } 
-                
-                else if (this.kitten.direction == 'mother_west') {
-                    this.kitten.x = this.kitten.previous.x + 32;
-                    this.kitten.y = this.kitten.previous.y;
-                }
-    
-                else if (this.kitten.direction == 'mother_south') {
-                    this.kitten.x = this.kitten.previous.x;
-                    this.kitten.y = this.kitten.previous.y - 32;
-                }
-    
-                else if (this.kitten.direction == 'mother_east') {
-                    this.kitten.x = this.kitten.previous.x - 32;
-                    this.kitten.y = this.kitten.previous.y;
-                }  
-
-            }
-        }
 
         // if a key is pressed
         if (this.wKey.isDown || this.upKey.isDown) {
@@ -274,34 +231,116 @@ class GameStart extends Phaser.Scene {
         this.mother.direction = this.direction;
         this.mother.update();
 
-        this.cat = this.mother.tail;
-        while (this.cat != null && this.cat.previous != null) {
-            console.log("testestestest");
-            this.cat.direction = this.cat.previous.direction;
+        this.cat = this.mother;
+        while (this.cat.follower != null) {
+            this.cat = this.cat.follower;
 
             if (this.cat.direction == 'mother_north') {
-                this.cat.x = this.cat.previous.x;
-                this.cat.y--;
-            } 
+                if (this.cat.leader.direction == 'mother_north') {
+                    this.cat.y = this.cat.leader.y + 33;
+                } else if (Phaser.Math.Difference(this.cat.x, this.cat.leader.x) > 32) {
+                    this.cat.y = this.cat.leader.y;
+                    this.cat.direction = this.cat.leader.direction;
+                }
+            } else if (this.cat.direction == 'mother_south') {
+                if (this.cat.leader.direction == 'mother_south') {
+                    this.cat.y = this.cat.leader.y - 33;
+                } else if (Phaser.Math.Difference(this.cat.x, this.cat.leader.x) > 32) {
+                    this.cat.y = this.cat.leader.y;
+                    this.cat.direction = this.cat.leader.direction;
+                }
+            } else if (this.cat.direction == 'mother_east') {
+                if (this.cat.leader.direction == 'mother_east') {
+                    this.cat.x = this.cat.leader.x - 33;
+                } else if (Phaser.Math.Difference(this.cat.y, this.cat.leader.y) > 32) {
+                    this.cat.x = this.cat.leader.x;
+                    this.cat.direction = this.cat.leader.direction;
+                }
+            }
+            // must be west
+            else {
+                if (this.cat.leader.direction == 'mother_west') {
+                    this.cat.x = this.cat.leader.x + 33;
+                } else if (Phaser.Math.Difference(this.cat.y, this.cat.leader.y) > 32) {
+                    this.cat.x = this.cat.leader.x;
+                    this.cat.direction = this.cat.leader.direction;
+                }
+            }
+
             
-            else if (this.cat.direction == 'mother_west') {
-                this.cat.x--;
-                this.cat.y = this.cat.previous.y;
-            }
+            // console.log("testestestest");
+            // this.cat.direction = this.cat.follower.direction;
 
-            else if (this.cat.direction == 'mother_south') {
-                this.cat.x = this.cat.previous.x;
-                this.cat.y++;
-            }
+            // if (this.cat.direction == 'mother_north') {
+            //     this.cat.x = this.cat.follower.x;
+            //     this.cat.y--;
+            // } 
+            
+            // else if (this.cat.direction == 'mother_west') {
+            //     this.cat.x--;
+            //     this.cat.y = this.cat.follower.y;
+            // }
 
-            else if (this.cat.direction == 'mother_east') {
-                this.cat.x++;
-                this.cat.y = this.cat.previous.y;
-            }       
+            // else if (this.cat.direction == 'mother_south') {
+            //     this.cat.x = this.cat.follower.x;
+            //     this.cat.y++;
+            // }
+
+            // else if (this.cat.direction == 'mother_east') {
+            //     this.cat.x++;
+            //     this.cat.y = this.cat.follower.y;
+            // }
+
             this.cat.update();
-            this.cat = this.cat.previous;
         }
+        // if a mother picks up a kitten remove from kittens group and add to clowder group
+        this.kitten_array = this.kittens.getChildren();
+        for (this.i = 0; this.i < this.kittens.getLength(); this.i++) {
+            this.kitten = this.kitten_array[this.i];
+            if (this.physics.collide(this.kitten, this.mother, null, null, this)) {
+                this.clowder.add(this.kitten);
+                this.kittens.remove(this.kitten);
 
+
+
+                if (this.mother.tail == null) {
+                    console.log("FIRST KITTEN");
+                    this.mother.follower = this.kitten;
+                    this.kitten.leader = this.mother;
+                    this.mother.tail = this.kitten;
+                }
+
+                else {
+                    console.log("SUBSEQUENT KITTEN");
+                    this.mother.tail.follower = this.kitten;
+                    this.kitten.leader = this.mother.tail;
+                    this.mother.tail = this.kitten;
+                }
+
+                this.kitten.direction = this.kitten.leader.direction;
+
+                if (this.kitten.direction == 'mother_north') {
+                    this.kitten.x = this.kitten.leader.x;
+                    this.kitten.y = this.kitten.leader.y + 33;
+                } 
+                
+                else if (this.kitten.direction == 'mother_west') {
+                    this.kitten.x = this.kitten.leader.x + 33;
+                    this.kitten.y = this.kitten.leader.y;
+                }
+    
+                else if (this.kitten.direction == 'mother_south') {
+                    this.kitten.x = this.kitten.leader.x;
+                    this.kitten.y = this.kitten.leader.y - 33;
+                }
+    
+                else if (this.kitten.direction == 'mother_east') {
+                    this.kitten.x = this.kitten.leader.x - 33;
+                    this.kitten.y = this.kitten.leader.y;
+                }
+                this.cat.update();
+            }
+        }
 
     }
 } 
