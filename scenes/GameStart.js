@@ -139,9 +139,9 @@ class GameStart extends Phaser.Scene {
         this.physics.collide(this.mother, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
         this.physics.collide(this.mother, this.clowder, function() { this.scene.start('GameOver'); }, null, this);
 
-        console.log(this.physics.collide(this.kittens, this.obstacles, null, null, this));
-        console.log(this.kittens.countActive());
-        console.log(this.clowder.countActive());
+    //    console.log(this.physics.collide(this.kittens, this.obstacles, null, null, this));
+    //    console.log(this.kittens.countActive());
+    //    console.log(this.clowder.countActive());
 
         // ensure there are always kittens on the board
         if (this.kittens.countActive() == 0) {
@@ -180,6 +180,7 @@ class GameStart extends Phaser.Scene {
 
                 this.kittens.add(this.kitten, this);
             }
+            this.tunnelTop.depth = this.kittens.getChildren()[4].depth+1;
         }
 
 
@@ -252,6 +253,7 @@ class GameStart extends Phaser.Scene {
                     }
                 }
 
+
             } else if (this.cat.direction == 'mother_south') {
                 if (this.cat.leader.direction == 'mother_south') {
                     //this.cat.y = this.cat.leader.y - 33;
@@ -267,6 +269,8 @@ class GameStart extends Phaser.Scene {
                         this.cat.y++;  
                     }
                 }
+
+
             } else if (this.cat.direction == 'mother_east') {
                 if (this.cat.leader.direction == 'mother_east') {
                     //this.cat.x = this.cat.leader.x - 33;
@@ -336,14 +340,14 @@ class GameStart extends Phaser.Scene {
                 this.kittens.remove(this.kitten);
 
                 if (this.mother.tail == null) {
-                    console.log("FIRST KITTEN");
+                //    console.log("FIRST KITTEN");
                     this.mother.follower = this.kitten;
                     this.kitten.leader = this.mother;
                     this.mother.tail = this.kitten;
                 }
 
                 else {
-                    console.log("SUBSEQUENT KITTEN");
+              //      console.log("SUBSEQUENT KITTEN");
                     this.mother.tail.follower = this.kitten;
                     this.kitten.leader = this.mother.tail;
                     this.mother.tail = this.kitten;
@@ -374,6 +378,8 @@ class GameStart extends Phaser.Scene {
                 this.cat.update();
             }
         }
+
+
 
     }
 } 
