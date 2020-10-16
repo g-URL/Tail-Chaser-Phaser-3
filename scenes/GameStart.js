@@ -15,7 +15,8 @@ class GameStart extends Phaser.Scene {
 
     create ()
     {
-        
+        this.difficulty = 0.5;
+
         this.cardinalDirections = ['north', 'east', 'south', 'west'];
         this.kittenColours = ['orange'];
         
@@ -186,51 +187,62 @@ class GameStart extends Phaser.Scene {
 
             // if a key is pressed
             if (this.wKey.isDown || this.upKey.isDown && this.steps > 32) {
-                this.mother.y--;
+                if (this.direction != 'mother_north') {
+                    this.steps = this.difficulty;
+                }
+                this.mother.y -= 1+this.difficulty;
                 this.direction = 'mother_north';
                 this.firstMove = false; // don't like this
-                this.steps = 0;
             }
             
             else if (this.aKey.isDown || this.leftKey.isDown && this.steps > 32) {
-                this.mother.x--;
+                if (this.direction != 'mother_west') {
+                    this.steps = this.difficulty;
+                }
+                this.mother.x -= 1+this.difficulty;
                 this.direction = 'mother_west';
                 this.firstMove = false; // don't like this
-                this.steps = 0;
+                this.steps = this.difficulty;
             }
 
             else if (this.sKey.isDown || this.downKey.isDown && this.steps > 32) {
-                this.mother.y++;
+                if (this.direction != 'mother_south') {
+                    this.steps = this.difficulty;
+                }
+                this.mother.y += 1+this.difficulty;
                 this.direction = 'mother_south';
                 this.firstMove = false; // don't like this
-                this.steps = 0;
+                this.steps = this.difficulty;
             }
 
             else if (this.dKey.isDown || this.rightKey.isDown && this.steps > 32) {
-                this.mother.x++;
+                if (this.direction != 'mother_east') {
+                    this.steps = this.difficulty;
+                }
+                this.mother.x += 1+this.difficulty;
                 this.direction = 'mother_east';
                 this.firstMove = false; // don't like this
-                this.steps = 0;
+                this.steps = this.difficulty;
             }
 
             // if no key is pressed
             else if (!this.firstMove) {
 
                 if (this.direction == 'mother_north') {
-                    this.mother.y--;
+                    this.mother.y -= 1+this.difficulty;
                 }
 
                 else if (this.direction == 'mother_west') {
-                    this.mother.x--;
+                    this.mother.x -= 1+this.difficulty;
                 }
 
                 else if (this.direction == 'mother_south') {
-                    this.mother.y++;
+                    this.mother.y += 1+this.difficulty;
 
                 } else {
-                    this.mother.x++;
+                    this.mother.x += 1+this.difficulty;
                 }
-                this.steps++;
+                this.steps += 1+this.difficulty;
             }
 
         this.mother.direction = this.direction;
@@ -244,7 +256,7 @@ class GameStart extends Phaser.Scene {
                 if (this.cat.leader.direction == 'mother_north') {
                     //this.cat.y = this.cat.leader.y + 33;
                     //this.cat.x = this.cat.leader.x;
-                    this.cat.y--;
+                    this.cat.y -= 1+this.difficulty;
                 } else if (this.cat.leader.direction == 'mother_south'){
                     this.scene.start('GameOver')
                 } else {
@@ -253,7 +265,7 @@ class GameStart extends Phaser.Scene {
                         this.cat.direction = this.cat.leader.direction;
                     } else {
                         //this.cat.y = this.cat.leader.y + 33;
-                        this.cat.y--;
+                        this.cat.y -= 1+this.difficulty;
                     }
                 }
 
@@ -261,7 +273,7 @@ class GameStart extends Phaser.Scene {
             } else if (this.cat.direction == 'mother_south') {
                 if (this.cat.leader.direction == 'mother_south') {
                     //this.cat.y = this.cat.leader.y - 33;
-                    this.cat.y++;
+                    this.cat.y += 1+this.difficulty;
                 } else if (this.cat.leader.direction == 'mother_north') {
                     this.scene.start('GameOver')
                 } else {
@@ -270,7 +282,7 @@ class GameStart extends Phaser.Scene {
                         this.cat.direction = this.cat.leader.direction;
                     } else {
                         //this.cat.y = this.cat.leader.y - 33;
-                        this.cat.y++;  
+                        this.cat.y += 1+this.difficulty;  
                     }
                 }
 
@@ -278,7 +290,7 @@ class GameStart extends Phaser.Scene {
             } else if (this.cat.direction == 'mother_east') {
                 if (this.cat.leader.direction == 'mother_east') {
                     //this.cat.x = this.cat.leader.x - 33;
-                    this.cat.x++;                    
+                    this.cat.x += 1+this.difficulty;                    
                 } else if (this.cat.leader.direction == 'mother_west') {
                     this.scene.start('GameOver')
                 } else {
@@ -287,7 +299,7 @@ class GameStart extends Phaser.Scene {
                         this.cat.direction = this.cat.leader.direction;
                     } else {
                         //this.cat.x = this.cat.leader.x - 33;
-                        this.cat.x++;
+                        this.cat.x += 1+this.difficulty;
                     }
                 }
             }
@@ -295,7 +307,7 @@ class GameStart extends Phaser.Scene {
             else {
                 if (this.cat.leader.direction == 'mother_west') {
                     //this.cat.x = this.cat.leader.x + 33;
-                    this.cat.x--;
+                    this.cat.x -= 1+this.difficulty;
                 } else if (this.cat.leader.direction == 'mother_east') {
                     this.scene.start('GameOver')
                 } else {
@@ -304,7 +316,7 @@ class GameStart extends Phaser.Scene {
                         this.cat.direction = this.cat.leader.direction;
                     } else {
                         //this.cat.x = this.cat.leader.x + 33;
-                        this.cat.x--;
+                        this.cat.x -= 1+this.difficulty;
                     }
                 }
             }
