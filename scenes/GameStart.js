@@ -96,7 +96,7 @@ class GameStart extends Phaser.Scene {
         });
 
         // mother
-        this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'mother_south');
+        this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'south');
         this.direction = this.mother.direction;
         this.steps = 33;
         this.firstMove = true;
@@ -150,15 +150,19 @@ class GameStart extends Phaser.Scene {
             for (this.i = 0; this.i < 5; this.i++) {
                 this.coordinateX = Phaser.Math.Between(32, 568);
                 this.coordinateY = Phaser.Math.Between(32, 568);
-
-                this.kittenDescription = 'kitten_'.concat(this.kittenColours[0], '_', this.cardinalDirections[Phaser.Math.Between(0,3)]);
+                this.kittenColour = this.kittenColours[0];
+                this.kittenDirection = this.cardinalDirections[Phaser.Math.Between(0,3)];
+                //console.log('test ', 'kitten_'.concat(this.kittenColour, '_', this.kittenDirection, '_0.png'))
                 this.kitten = new CatNode(this, 
                                         this.coordinateX, 
                                         this.coordinateY,
                                         'cats', 
-                                        this.kittenDescription.concat('_0.png'), 
-                                        this.kittenDescription);
+                                        'kitten_'.concat(this.kittenColour, '_', this.kittenDirection, '_0.png'), 
+                                        this.kittenDirection,
+                                        'kitten',
+                                        this.kittenColour);
 
+                //console.log('another test: ', this.kitten.type.concat('_', this.kitten.colour, '_', this.kitten.direction));
                 // place kitten such that they don't collide with existing obstacles
                 this.collision = true;
                 this.obstacle_array = this.obstacles.getChildren();
@@ -187,56 +191,64 @@ class GameStart extends Phaser.Scene {
 
             // if a key is pressed
             if (this.wKey.isDown || this.upKey.isDown && this.steps > 32) {
-                if (this.direction != 'mother_north') {
+                if (this.direction != 'north') {
                     this.steps = this.difficulty;
                 }
                 this.mother.y -= 1+this.difficulty;
-                this.direction = 'mother_north';
+                this.direction = 'north';
                 this.firstMove = false; // don't like this
+                this.mother.direction = this.direction;
+                this.mother.update();
             }
             
             else if (this.aKey.isDown || this.leftKey.isDown && this.steps > 32) {
-                if (this.direction != 'mother_west') {
+                if (this.direction != 'west') {
                     this.steps = this.difficulty;
                 }
                 this.mother.x -= 1+this.difficulty;
-                this.direction = 'mother_west';
+                this.direction = 'west';
                 this.firstMove = false; // don't like this
                 this.steps = this.difficulty;
+                this.mother.direction = this.direction;
+                this.mother.update();
             }
 
             else if (this.sKey.isDown || this.downKey.isDown && this.steps > 32) {
-                if (this.direction != 'mother_south') {
+                if (this.direction != 'south') {
                     this.steps = this.difficulty;
                 }
                 this.mother.y += 1+this.difficulty;
-                this.direction = 'mother_south';
+                this.direction = 'south';
                 this.firstMove = false; // don't like this
                 this.steps = this.difficulty;
+                this.mother.direction = this.direction;
+                this.mother.update();
             }
 
             else if (this.dKey.isDown || this.rightKey.isDown && this.steps > 32) {
-                if (this.direction != 'mother_east') {
+                if (this.direction != 'east') {
                     this.steps = this.difficulty;
                 }
                 this.mother.x += 1+this.difficulty;
-                this.direction = 'mother_east';
+                this.direction = 'east';
                 this.firstMove = false; // don't like this
                 this.steps = this.difficulty;
+                this.mother.direction = this.direction;
+                this.mother.update();
             }
 
             // if no key is pressed
             else if (!this.firstMove) {
 
-                if (this.direction == 'mother_north') {
+                if (this.direction == 'north') {
                     this.mother.y -= 1+this.difficulty;
                 }
 
-                else if (this.direction == 'mother_west') {
+                else if (this.direction == 'west') {
                     this.mother.x -= 1+this.difficulty;
                 }
 
-                else if (this.direction == 'mother_south') {
+                else if (this.direction == 'south') {
                     this.mother.y += 1+this.difficulty;
 
                 } else {
@@ -245,24 +257,24 @@ class GameStart extends Phaser.Scene {
                 this.steps += 1+this.difficulty;
             }
 
-        this.mother.direction = this.direction;
-        this.mother.update();
+
 
         this.cat = this.mother;
         while (this.cat.follower != null) {
             this.cat = this.cat.follower;
 
-            if (this.cat.direction == 'mother_north') {
-                if (this.cat.leader.direction == 'mother_north') {
+            if (this.cat.direction == 'north') {
+                if (this.cat.leader.direction == 'north') {
                     //this.cat.y = this.cat.leader.y + 33;
                     //this.cat.x = this.cat.leader.x;
                     this.cat.y -= 1+this.difficulty;
-                } else if (this.cat.leader.direction == 'mother_south'){
+                } else if (this.cat.leader.direction == 'south'){
                     this.scene.start('GameOver')
                 } else {
                     if (Phaser.Math.Difference(this.cat.x, this.cat.leader.x) > 32) {
                         this.cat.y = this.cat.leader.y;
                         this.cat.direction = this.cat.leader.direction;
+                        this.cat.update();
                     } else {
                         //this.cat.y = this.cat.leader.y + 33;
                         this.cat.y -= 1+this.difficulty;
@@ -270,16 +282,17 @@ class GameStart extends Phaser.Scene {
                 }
 
 
-            } else if (this.cat.direction == 'mother_south') {
-                if (this.cat.leader.direction == 'mother_south') {
+            } else if (this.cat.direction == 'south') {
+                if (this.cat.leader.direction == 'south') {
                     //this.cat.y = this.cat.leader.y - 33;
                     this.cat.y += 1+this.difficulty;
-                } else if (this.cat.leader.direction == 'mother_north') {
+                } else if (this.cat.leader.direction == 'north') {
                     this.scene.start('GameOver')
                 } else {
                     if (Phaser.Math.Difference(this.cat.x, this.cat.leader.x) > 32) {
                         this.cat.y = this.cat.leader.y;
                         this.cat.direction = this.cat.leader.direction;
+                        this.cat.update();
                     } else {
                         //this.cat.y = this.cat.leader.y - 33;
                         this.cat.y += 1+this.difficulty;  
@@ -287,16 +300,17 @@ class GameStart extends Phaser.Scene {
                 }
 
 
-            } else if (this.cat.direction == 'mother_east') {
-                if (this.cat.leader.direction == 'mother_east') {
+            } else if (this.cat.direction == 'east') {
+                if (this.cat.leader.direction == 'east') {
                     //this.cat.x = this.cat.leader.x - 33;
                     this.cat.x += 1+this.difficulty;                    
-                } else if (this.cat.leader.direction == 'mother_west') {
+                } else if (this.cat.leader.direction == 'west') {
                     this.scene.start('GameOver')
                 } else {
                     if (Phaser.Math.Difference(this.cat.y, this.cat.leader.y) > 32) {
                         this.cat.x = this.cat.leader.x;
                         this.cat.direction = this.cat.leader.direction;
+                        this.cat.update();
                     } else {
                         //this.cat.x = this.cat.leader.x - 33;
                         this.cat.x += 1+this.difficulty;
@@ -305,15 +319,16 @@ class GameStart extends Phaser.Scene {
             }
             // must be west
             else {
-                if (this.cat.leader.direction == 'mother_west') {
+                if (this.cat.leader.direction == 'west') {
                     //this.cat.x = this.cat.leader.x + 33;
                     this.cat.x -= 1+this.difficulty;
-                } else if (this.cat.leader.direction == 'mother_east') {
+                } else if (this.cat.leader.direction == 'east') {
                     this.scene.start('GameOver')
                 } else {
                     if (Phaser.Math.Difference(this.cat.y, this.cat.leader.y) > 32) {
                         this.cat.x = this.cat.leader.x;
                         this.cat.direction = this.cat.leader.direction;
+                        this.cat.update();
                     } else {
                         //this.cat.x = this.cat.leader.x + 33;
                         this.cat.x -= 1+this.difficulty;
@@ -325,27 +340,27 @@ class GameStart extends Phaser.Scene {
             // console.log("testestestest");
             // this.cat.direction = this.cat.follower.direction;
 
-            // if (this.cat.direction == 'mother_north') {
+            // if (this.cat.direction == 'north') {
             //     this.cat.x = this.cat.follower.x;
             //     this.cat.y--;
             // } 
             
-            // else if (this.cat.direction == 'mother_west') {
+            // else if (this.cat.direction == 'west') {
             //     this.cat.x--;
             //     this.cat.y = this.cat.follower.y;
             // }
 
-            // else if (this.cat.direction == 'mother_south') {
+            // else if (this.cat.direction == 'south') {
             //     this.cat.x = this.cat.follower.x;
             //     this.cat.y++;
             // }
 
-            // else if (this.cat.direction == 'mother_east') {
+            // else if (this.cat.direction == 'east') {
             //     this.cat.x++;
             //     this.cat.y = this.cat.follower.y;
             // }
 
-            this.cat.update();
+           // this.cat.update();
         }
         // if a mother picks up a kitten remove from kittens group and add to clowder group
         this.kitten_array = this.kittens.getChildren();
@@ -372,26 +387,26 @@ class GameStart extends Phaser.Scene {
 
                 this.kitten.direction = this.kitten.leader.direction;
 
-                if (this.kitten.direction == 'mother_north') {
+                if (this.kitten.direction == 'north') {
                     this.kitten.x = this.kitten.leader.x;
                     this.kitten.y = this.kitten.leader.y + 33;
                 } 
                 
-                else if (this.kitten.direction == 'mother_west') {
+                else if (this.kitten.direction == 'west') {
                     this.kitten.x = this.kitten.leader.x + 33;
                     this.kitten.y = this.kitten.leader.y;
                 }
     
-                else if (this.kitten.direction == 'mother_south') {
+                else if (this.kitten.direction == 'south') {
                     this.kitten.x = this.kitten.leader.x;
                     this.kitten.y = this.kitten.leader.y - 33;
                 }
     
-                else if (this.kitten.direction == 'mother_east') {
+                else if (this.kitten.direction == 'east') {
                     this.kitten.x = this.kitten.leader.x - 33;
                     this.kitten.y = this.kitten.leader.y;
                 }
-                this.cat.update();
+                this.kitten.update();
             }
         }
 

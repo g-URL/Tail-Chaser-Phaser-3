@@ -1,8 +1,10 @@
 class CatNode extends Phaser.Physics.Arcade.Sprite {
-    constructor(scene, x, y, key, frame, direction, leader = null, follower = null) {
+    constructor(scene, x, y, key, frame, direction, type = 'mother', colour = null, leader = null, follower = null) {
         super(scene, x, y, key, frame);
 
         this.direction = direction;
+        this.type = type;
+        this.colour = colour;
         this.leader = null;
         this.follower = null;
         this.tail = null;
@@ -13,6 +15,14 @@ class CatNode extends Phaser.Physics.Arcade.Sprite {
     }
 
     update(){
-        this.play(this.direction, this);
+        this.description = this.type;
+        
+        if (this.type == 'kitten') {
+            this.description = this.description.concat('_', this.colour);
+            //console.log('KITTEN DETECTED');
+        }
+        this.description = this.description.concat('_', this.direction);
+        //console.log('description: ', this.description);
+        this.play(this.description, this);
     }
 }
