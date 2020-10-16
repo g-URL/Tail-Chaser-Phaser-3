@@ -97,6 +97,7 @@ class GameStart extends Phaser.Scene {
         // mother
         this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'mother_south');
         this.direction = this.mother.direction;
+        this.steps = 33;
         this.firstMove = true;
         
         // https://youtu.be/7cpZ5Y7THmo?t=918
@@ -183,52 +184,54 @@ class GameStart extends Phaser.Scene {
             this.tunnelTop.depth = this.kittens.getChildren()[4].depth+1;
         }
 
-
-
-        // if a key is pressed
-        if (this.wKey.isDown || this.upKey.isDown) {
-            this.mother.y--;
-            this.direction = 'mother_north';
-            this.firstMove = false; // don't like this
-        }
-        
-        else if (this.aKey.isDown || this.leftKey.isDown) {
-            this.mother.x--;
-            this.direction = 'mother_west';
-            this.firstMove = false; // don't like this
-        }
-
-        else if (this.sKey.isDown || this.downKey.isDown) {
-            this.mother.y++;
-            this.direction = 'mother_south';
-            this.firstMove = false; // don't like this
-        }
-
-        else if (this.dKey.isDown || this.rightKey.isDown) {
-            this.mother.x++;
-            this.direction = 'mother_east';
-            this.firstMove = false; // don't like this
-        }
-
-        // if no key is pressed
-        else if (!this.firstMove) {
-
-            if (this.direction == 'mother_north') {
+            // if a key is pressed
+            if (this.wKey.isDown || this.upKey.isDown && this.steps > 32) {
                 this.mother.y--;
+                this.direction = 'mother_north';
+                this.firstMove = false; // don't like this
+                this.steps = 0;
             }
-
-            else if (this.direction == 'mother_west') {
+            
+            else if (this.aKey.isDown || this.leftKey.isDown && this.steps > 32) {
                 this.mother.x--;
+                this.direction = 'mother_west';
+                this.firstMove = false; // don't like this
+                this.steps = 0;
             }
 
-            else if (this.direction == 'mother_south') {
+            else if (this.sKey.isDown || this.downKey.isDown && this.steps > 32) {
                 this.mother.y++;
-
-            } else {
-                this.mother.x++;
+                this.direction = 'mother_south';
+                this.firstMove = false; // don't like this
+                this.steps = 0;
             }
-        }
 
+            else if (this.dKey.isDown || this.rightKey.isDown && this.steps > 32) {
+                this.mother.x++;
+                this.direction = 'mother_east';
+                this.firstMove = false; // don't like this
+                this.steps = 0;
+            }
+
+            // if no key is pressed
+            else if (!this.firstMove) {
+
+                if (this.direction == 'mother_north') {
+                    this.mother.y--;
+                }
+
+                else if (this.direction == 'mother_west') {
+                    this.mother.x--;
+                }
+
+                else if (this.direction == 'mother_south') {
+                    this.mother.y++;
+
+                } else {
+                    this.mother.x++;
+                }
+                this.steps++;
+            }
 
         this.mother.direction = this.direction;
         this.mother.update();
@@ -240,6 +243,7 @@ class GameStart extends Phaser.Scene {
             if (this.cat.direction == 'mother_north') {
                 if (this.cat.leader.direction == 'mother_north') {
                     //this.cat.y = this.cat.leader.y + 33;
+                    //this.cat.x = this.cat.leader.x;
                     this.cat.y--;
                 } else if (this.cat.leader.direction == 'mother_south'){
                     this.scene.start('GameOver')
