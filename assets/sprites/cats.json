@@ -1,6 +1,6 @@
 {
 	"frames": {
-		"kitten_orange_east_0.png": {
+		"kitten_black_east_0.png": {
 			"frame": {
 				"x": 1,
 				"y": 1,
@@ -20,7 +20,7 @@
 				"h": 32
 			}
 		},
-		"kitten_orange_east_1.png": {
+		"kitten_black_east_1.png": {
 			"frame": {
 				"x": 35,
 				"y": 1,
@@ -40,7 +40,7 @@
 				"h": 32
 			}
 		},
-		"kitten_orange_north_0.png": {
+		"kitten_black_north_0.png": {
 			"frame": {
 				"x": 69,
 				"y": 1,
@@ -60,10 +60,330 @@
 				"h": 32
 			}
 		},
-		"kitten_orange_north_1.png": {
+		"kitten_black_north_1.png": {
 			"frame": {
 				"x": 103,
 				"y": 1,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_black_south_0.png": {
+			"frame": {
+				"x": 137,
+				"y": 1,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_black_south_1.png": {
+			"frame": {
+				"x": 1,
+				"y": 35,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_black_west_0.png": {
+			"frame": {
+				"x": 35,
+				"y": 35,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_black_west_1.png": {
+			"frame": {
+				"x": 69,
+				"y": 35,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_grey_east_0.png": {
+			"frame": {
+				"x": 103,
+				"y": 35,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_grey_east_1.png": {
+			"frame": {
+				"x": 137,
+				"y": 35,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_grey_north_0.png": {
+			"frame": {
+				"x": 1,
+				"y": 69,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_grey_north_1.png": {
+			"frame": {
+				"x": 35,
+				"y": 69,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_grey_south_0.png": {
+			"frame": {
+				"x": 69,
+				"y": 69,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_grey_south_1.png": {
+			"frame": {
+				"x": 103,
+				"y": 69,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_grey_west_0.png": {
+			"frame": {
+				"x": 137,
+				"y": 69,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_grey_west_1.png": {
+			"frame": {
+				"x": 1,
+				"y": 103,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_orange_east_0.png": {
+			"frame": {
+				"x": 35,
+				"y": 103,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_orange_east_1.png": {
+			"frame": {
+				"x": 69,
+				"y": 103,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_orange_north_0.png": {
+			"frame": {
+				"x": 103,
+				"y": 103,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
+		},
+		"kitten_orange_north_1.png": {
+			"frame": {
+				"x": 137,
+				"y": 103,
 				"w": 32,
 				"h": 32
 			},
@@ -83,7 +403,7 @@
 		"kitten_orange_south_0.png": {
 			"frame": {
 				"x": 1,
-				"y": 35,
+				"y": 137,
 				"w": 32,
 				"h": 32
 			},
@@ -103,7 +423,7 @@
 		"kitten_orange_south_1.png": {
 			"frame": {
 				"x": 35,
-				"y": 35,
+				"y": 137,
 				"w": 32,
 				"h": 32
 			},
@@ -123,7 +443,7 @@
 		"kitten_orange_west_0.png": {
 			"frame": {
 				"x": 69,
-				"y": 35,
+				"y": 137,
 				"w": 32,
 				"h": 32
 			},
@@ -143,7 +463,7 @@
 		"kitten_orange_west_1.png": {
 			"frame": {
 				"x": 103,
-				"y": 35,
+				"y": 137,
 				"w": 32,
 				"h": 32
 			},
@@ -162,8 +482,8 @@
 		},
 		"mother_east_0.png": {
 			"frame": {
-				"x": 1,
-				"y": 69,
+				"x": 137,
+				"y": 137,
 				"w": 32,
 				"h": 32
 			},
@@ -182,8 +502,8 @@
 		},
 		"mother_east_1.png": {
 			"frame": {
-				"x": 35,
-				"y": 69,
+				"x": 171,
+				"y": 1,
 				"w": 32,
 				"h": 32
 			},
@@ -202,8 +522,8 @@
 		},
 		"mother_north_0.png": {
 			"frame": {
-				"x": 69,
-				"y": 69,
+				"x": 171,
+				"y": 35,
 				"w": 32,
 				"h": 32
 			},
@@ -222,7 +542,7 @@
 		},
 		"mother_north_1.png": {
 			"frame": {
-				"x": 103,
+				"x": 171,
 				"y": 69,
 				"w": 32,
 				"h": 32
@@ -242,7 +562,7 @@
 		},
 		"mother_south_0.png": {
 			"frame": {
-				"x": 1,
+				"x": 171,
 				"y": 103,
 				"w": 32,
 				"h": 32
@@ -262,8 +582,8 @@
 		},
 		"mother_south_1.png": {
 			"frame": {
-				"x": 35,
-				"y": 103,
+				"x": 171,
+				"y": 137,
 				"w": 32,
 				"h": 32
 			},
@@ -282,8 +602,8 @@
 		},
 		"mother_west_0.png": {
 			"frame": {
-				"x": 69,
-				"y": 103,
+				"x": 1,
+				"y": 171,
 				"w": 32,
 				"h": 32
 			},
@@ -302,8 +622,8 @@
 		},
 		"mother_west_1.png": {
 			"frame": {
-				"x": 103,
-				"y": 103,
+				"x": 35,
+				"y": 171,
 				"w": 32,
 				"h": 32
 			},
@@ -327,8 +647,8 @@
 		"image": "spritesheet.png",
 		"format": "RGBA8888",
 		"size": {
-			"w": 136,
-			"h": 136
+			"w": 204,
+			"h": 204
 		},
 		"scale": "1"
 	}

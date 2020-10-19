@@ -17,7 +17,7 @@ class GameStart extends Phaser.Scene {
         this.kittenSpawnRate = 5;
 
         this.cardinalDirections = ['north', 'east', 'south', 'west'];
-        this.kittenColours = ['orange', 'grey', 'black'];
+        this.kittenColours = ['black', 'grey', 'orange'];
 
         // game background and obstacles
         this.add.image(320, 320, 'board', 'board.png');
@@ -69,6 +69,34 @@ class GameStart extends Phaser.Scene {
         });
 
         this.anims.create({
+            key: 'kitten_black_north',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_black_north_0.png', 'kitten_black_north_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_black_east',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_black_east_0.png', 'kitten_black_east_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_black_south',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_black_south_0.png', 'kitten_black_south_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_black_west',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_black_west_0.png', 'kitten_black_west_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
             key: 'kitten_orange_north',
             frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_north_0.png', 'kitten_orange_north_1.png'] }),
             frameRate: 5,
@@ -95,6 +123,35 @@ class GameStart extends Phaser.Scene {
             frameRate: 5,
             repeat: -1
         });
+
+        this.anims.create({
+            key: 'kitten_grey_north',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_grey_north_0.png', 'kitten_grey_north_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_grey_east',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_grey_east_0.png', 'kitten_grey_east_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_grey_south',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_grey_south_0.png', 'kitten_grey_south_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'kitten_grey_west',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_grey_west_0.png', 'kitten_grey_west_1.png'] }),
+            frameRate: 5,
+            repeat: -1
+        });       
+
 
         // keyboard input
         // https://youtu.be/7cpZ5Y7THmo?t=918
@@ -162,14 +219,13 @@ class GameStart extends Phaser.Scene {
                 this.coordinateY = Phaser.Math.Between(0+32+16, 640-32-16);
 
                 // random colour and direction
-                //this.kittenColour = this.kittenColours[Phaser.Math.Between(0,3)];
-                this.kittenColour = this.kittenColours[0];
+                this.kittenColour = this.kittenColours[Phaser.Math.Between(0,2)];
                 this.kittenDirection = this.cardinalDirections[Phaser.Math.Between(0,3)];
 
                 this.kitten = new CatNode(this, 
                                         this.coordinateX, 
                                         this.coordinateY,
-                                        'cats', 
+                                        'cats',                                      
                                         'kitten_'.concat(this.kittenColour, '_', this.kittenDirection, '_0.png'), 
                                         this.kittenDirection,
                                         'kitten',
@@ -259,80 +315,81 @@ class GameStart extends Phaser.Scene {
             this.steps +=  1 + this.difficulty;
         }
 
-        
         // iterate through kindle to update kittens
         this.cat = this.mother;
-
         while (this.cat.follower != null) {
             this.cat = this.cat.follower;
 
             if (this.cat.direction == 'north') {
                 if (this.cat.leader.direction == 'north') {
-                    //this.cat.y = this.cat.leader.y + 33;
-                    //this.cat.x = this.cat.leader.x;
-                    this.cat.y -= 1+this.difficulty;
-                } else if (this.cat.leader.direction == 'south'){
-                    this.scene.start('GameOver')
-                } else {
-                    if (Phaser.Math.Difference(this.cat.x, this.cat.leader.x) > 32) {
-                        this.cat.y = this.cat.leader.y;
-                        this.cat.direction = this.cat.leader.direction;
-                        this.cat.update();
-                    } else {
-                        //this.cat.y = this.cat.leader.y + 33;
-                        this.cat.y -= 1+this.difficulty;
-                    }
-                }
+                    this.cat.y -= 1 + this.difficulty;
 
-            } else if (this.cat.direction == 'south') {
-                if (this.cat.leader.direction == 'south') {
-                    //this.cat.y = this.cat.leader.y - 33;
-                    this.cat.y += 1+this.difficulty;
-                } else if (this.cat.leader.direction == 'north') {
-                    this.scene.start('GameOver')
+                } else if (this.cat.leader.direction == 'south') {
+                    this.scene.start('GameOver');
+
                 } else {
                     if (Phaser.Math.Difference(this.cat.x, this.cat.leader.x) > 32) {
                         this.cat.y = this.cat.leader.y;
                         this.cat.direction = this.cat.leader.direction;
                         this.cat.update();
+
                     } else {
-                        //this.cat.y = this.cat.leader.y - 33;
-                        this.cat.y += 1+this.difficulty;  
+                        this.cat.y -= 1 + this.difficulty;
                     }
                 }
 
             } else if (this.cat.direction == 'east') {
                 if (this.cat.leader.direction == 'east') {
-                    //this.cat.x = this.cat.leader.x - 33;
-                    this.cat.x += 1+this.difficulty;                    
+                    this.cat.x += 1 + this.difficulty;
+
                 } else if (this.cat.leader.direction == 'west') {
-                    this.scene.start('GameOver')
+                    this.scene.start('GameOver');
+
                 } else {
                     if (Phaser.Math.Difference(this.cat.y, this.cat.leader.y) > 32) {
                         this.cat.x = this.cat.leader.x;
                         this.cat.direction = this.cat.leader.direction;
                         this.cat.update();
+
                     } else {
-                        //this.cat.x = this.cat.leader.x - 33;
-                        this.cat.x += 1+this.difficulty;
+                        this.cat.x += 1 + this.difficulty;
                     }
                 }
-            }
 
-            else {
+            } else if (this.cat.direction == 'south') {
+                if (this.cat.leader.direction == 'south') {
+                    this.cat.y += 1 + this.difficulty;
+
+                } else if (this.cat.leader.direction == 'north') {
+                    this.scene.start('GameOver');
+
+                } else {
+                    if (Phaser.Math.Difference(this.cat.x, this.cat.leader.x) > 32) {
+                        this.cat.y = this.cat.leader.y;
+                        this.cat.direction = this.cat.leader.direction;
+                        this.cat.update();
+
+                    } else {
+                        this.cat.y += 1 + this.difficulty;  
+                    }
+                }
+
+            // west
+            } else {
                 if (this.cat.leader.direction == 'west') {
-                    //this.cat.x = this.cat.leader.x + 33;
-                    this.cat.x -= 1+this.difficulty;
+                    this.cat.x -= 1 + this.difficulty;
+
                 } else if (this.cat.leader.direction == 'east') {
-                    this.scene.start('GameOver')
+                    this.scene.start('GameOver');
+
                 } else {
                     if (Phaser.Math.Difference(this.cat.y, this.cat.leader.y) > 32) {
                         this.cat.x = this.cat.leader.x;
                         this.cat.direction = this.cat.leader.direction;
                         this.cat.update();
+
                     } else {
-                        //this.cat.x = this.cat.leader.x + 33;
-                        this.cat.x -= 1+this.difficulty;
+                        this.cat.x -= 1 + this.difficulty;
                     }
                 }
             }
