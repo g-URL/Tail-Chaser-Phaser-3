@@ -142,18 +142,10 @@ class GameStart extends Phaser.Scene {
         this.obstacle = obstacle;
         this.collision = collision;
 
-        this.obstacleBoundary = this.obstacle.getBounds();
-
-        // FIND A BETTER WAY TO DO THIS
-        if (this.obstacleBoundary.contains(this.kitten.x, this.kitten.y) ||
-            this.obstacleBoundary.contains(this.kitten.x+16, this.kitten.y+16) ||
-            this.obstacleBoundary.contains(this.kitten.x+16, this.kitten.y-16) ||
-            this.obstacleBoundary.contains(this.kitten.x-16, this.kitten.y+16) ||
-            this.obstacleBoundary.contains(this.kitten.x-16, this.kitten.y-16))
-        {
+        if (Phaser.Geom.Rectangle.Overlaps(this.kitten.getBounds(), this.obstacle.getBounds())) {
             this.collision = true;
             this.kitten.x = Phaser.Math.Between(0+32+16, 640-32-16);
-            this.kitten.y = Phaser.Math.Between(0+32+16, 640-32-16);
+            this.kitten.y = Phaser.Math.Between(0+32+16, 640-32-16);            
         }
     }
 
