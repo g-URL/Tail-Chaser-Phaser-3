@@ -144,6 +144,7 @@ class GameStart extends Phaser.Scene {
 
         this.obstacleBoundary = this.obstacle.getBounds();
 
+        // FIND A BETTER WAY TO DO THIS
         if (this.obstacleBoundary.contains(this.kitten.x, this.kitten.y) ||
             this.obstacleBoundary.contains(this.kitten.x+16, this.kitten.y+16) ||
             this.obstacleBoundary.contains(this.kitten.x+16, this.kitten.y-16) ||
