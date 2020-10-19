@@ -5,39 +5,39 @@ class GameStart extends Phaser.Scene {
         super({key:'GameStart'});
     }
 
-    preload ()
-    {
+    preload () {
         // https://www.codeandweb.com/free-sprite-sheet-packer
         this.load.atlas('board', 'assets/sprites/board.png', 'assets/sprites/board.json');
         this.load.atlas('obstacles', 'assets/sprites/obstacles.png', 'assets/sprites/obstacles.json');
         this.load.atlas('cats', 'assets/sprites/cats.png', 'assets/sprites/cats.json');
     }
 
-    create ()
-    {
+    create () {
         this.difficulty = 0.5;
-
+        this.kittenSpawnRate = 5;
         this.cardinalDirections = ['north', 'east', 'south', 'west'];
-        this.kittenColours = ['orange'];
-        
+        this.kittenColours = ['orange', 'grey', 'black'];
+
+        // game background and obstacles
         this.add.image(320, 320, 'board', 'board.png');
 
-        // obstacles
-        this.rightWall = this.physics.add.sprite(640-(32/2), 320, 'obstacles', 'board_edge_right.png');
-        this.leftWall = this.physics.add.sprite(0+(32/2), 320, 'obstacles', 'board_edge_left.png');
-        this.topWall = this.physics.add.sprite(320, 0+(32/2), 'obstacles', 'board_edge_top.png');
-        this.bottomWall = this.physics.add.sprite(320, 640-(32/2), 'obstacles', 'board_edge_bottom.png');
+        this.rightWall = this.physics.add.sprite(640-16, 320, 'obstacles', 'board_edge_right.png');
+        this.leftWall = this.physics.add.sprite(0+16, 320, 'obstacles', 'board_edge_left.png');
+        this.topWall = this.physics.add.sprite(320, 0+16, 'obstacles', 'board_edge_top.png');
+        this.bottomWall = this.physics.add.sprite(320, 640-16, 'obstacles', 'board_edge_bottom.png');
 
         this.litter = this.physics.add.sprite(640-130, 0+98, 'obstacles', 'litter.png');
 
         this.tunnelBottom = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_bottom.png');
-        this.tunnelLeftEdge = this.physics.add.sprite(320-128-(126/2)+3, 320-32, 'obstacles', 'tunnel_left.png');
-        this.tunnelRightEdge = this.physics.add.sprite(320-128+(126/2)-3, 320-32, 'obstacles', 'tunnel_right.png');
+        this.tunnelLeftEdge = this.physics.add.sprite(320-128-63+3, 320-32, 'obstacles', 'tunnel_left.png');
+        this.tunnelRightEdge = this.physics.add.sprite(320-128+63-3, 320-32, 'obstacles', 'tunnel_right.png');
+        this.tunnelTop = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_top.png');
 
         this.yarn = this.physics.add.sprite(320+128, 320+128, 'obstacles', 'yarn.png');
 
         this.foodBowl = this.physics.add.sprite(0+116, 640-84, 'obstacles', 'food_bowl.png');
 
+        // animations
         // https://labs.phaser.io/edit.html?src=src\animation\create%20animation%20from%20sprite%20sheet.js
         this.anims.create({
             key: 'mother_north',
@@ -95,12 +95,7 @@ class GameStart extends Phaser.Scene {
             repeat: -1
         });
 
-        // mother
-        this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'south');
-        this.direction = this.mother.direction;
-        this.steps = 33;
-        this.firstMove = true;
-        
+        // keyboard input
         // https://youtu.be/7cpZ5Y7THmo?t=918
         this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -115,11 +110,18 @@ class GameStart extends Phaser.Scene {
         this.keyObj = this.input.keyboard.addKey('ENTER');
         this.keyObj.on('down', function() { this.scene.start('GameOver'); }, this);
 
-
-        this.tunnelTop = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_top.png');
-
+        // mother
+        this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'south');
+        this.tunnelTop.depth = this.mother.depth+1;
+        this.direction = this.mother.direction;
+        this.steps = 33;
+        this.firstMove = true;
+        
+        // groups
         this.kittens = this.physics.add.group();
-        this.clowder = this.physics.add.group();
+
+        // https://www.thefreedictionary.com/A-clowder-of-cats-30-fancy-names-for-animal-groups.htm
+        this.kindle = this.physics.add.group();
 
         this.obstacles = this.physics.add.group();
         this.obstacles.addMultiple([this.leftWall,
@@ -132,27 +134,25 @@ class GameStart extends Phaser.Scene {
                                     this.yarn, 
                                     this.foodBowl], 
                                     this);
-
     }
 
-    update(time, delta)
-    {
-        // if the mother collides with any obstacles (or her clowder - to be added later) then game over
+    update(time, delta) {
+        // if the mother collides with any obstacles or her kindle then game over
         this.physics.collide(this.mother, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
-        this.physics.collide(this.mother, this.clowder, function() { this.scene.start('GameOver'); }, null, this);
-
-    //    console.log(this.physics.collide(this.kittens, this.obstacles, null, null, this));
-    //    console.log(this.kittens.countActive());
-    //    console.log(this.clowder.countActive());
+        this.physics.collide(this.mother, this.kindle, function() { this.scene.start('GameOver'); }, null, this);
 
         // ensure there are always kittens on the board
         if (this.kittens.countActive() == 0) {
-            for (this.i = 0; this.i < 5; this.i++) {
-                this.coordinateX = Phaser.Math.Between(32, 568);
-                this.coordinateY = Phaser.Math.Between(32, 568);
+            for (this.i = 0; this.i < this.kittenSpawnRate; this.i++) {
+                // random position
+                this.coordinateX = Phaser.Math.Between(0+32+16, 640-32-16);
+                this.coordinateY = Phaser.Math.Between(0+32+16, 640-32-16);
+
+                // random colour and direction
+                //this.kittenColour = this.kittenColours[Phaser.Math.Between(0,3)];
                 this.kittenColour = this.kittenColours[0];
                 this.kittenDirection = this.cardinalDirections[Phaser.Math.Between(0,3)];
-                //console.log('test ', 'kitten_'.concat(this.kittenColour, '_', this.kittenDirection, '_0.png'))
+
                 this.kitten = new CatNode(this, 
                                         this.coordinateX, 
                                         this.coordinateY,
@@ -161,102 +161,106 @@ class GameStart extends Phaser.Scene {
                                         this.kittenDirection,
                                         'kitten',
                                         this.kittenColour);
-
-                //console.log('another test: ', this.kitten.type.concat('_', this.kitten.colour, '_', this.kitten.direction));
+                
                 // place kitten such that they don't collide with existing obstacles
                 this.collision = true;
                 this.obstacle_array = this.obstacles.getChildren();
                 while (this.collision) {
                     this.collision = false;
-                    for (this.k = 0; this.k < this.obstacles.getLength(); this.k++) {
-                        this.obstacle_boundary = this.obstacle_array[this.k].getBounds();
+
+                    for (this.j = 0; this.j < this.obstacles.getLength(); this.j++) {
+                        this.obstacle_boundary = this.obstacle_array[this.j].getBounds();
 
                         if (this.obstacle_boundary.contains(this.kitten.x, this.kitten.y) ||
                             this.obstacle_boundary.contains(this.kitten.x+16, this.kitten.y+16) ||
                             this.obstacle_boundary.contains(this.kitten.x+16, this.kitten.y-16) ||
                             this.obstacle_boundary.contains(this.kitten.x-16, this.kitten.y+16) ||
-                            this.obstacle_boundary.contains(this.kitten.x-16, this.kitten.y-16)) {
-
+                            this.obstacle_boundary.contains(this.kitten.x-16, this.kitten.y-16))
+                        {
                             this.collision = true;
-                            this.kitten.x = Phaser.Math.Between(32, 568);
-                            this.kitten.y = Phaser.Math.Between(32, 568);
+                            this.kitten.x = Phaser.Math.Between(0+32+16, 640-32-16);
+                            this.kitten.y = Phaser.Math.Between(0+32+16, 640-32-16);
                         }
                     }
                 }
 
                 this.kittens.add(this.kitten, this);
             }
+
+            // ensure kittens walk through tunnel
             this.tunnelTop.depth = this.kittens.getChildren()[4].depth+1;
         }
 
-            // if a key is pressed
-            if (this.wKey.isDown || this.upKey.isDown && this.steps > 32) {
-                if (this.direction != 'north') {
-                    this.steps = this.difficulty;
-                }
-                this.mother.y -= 1+this.difficulty;
-                this.direction = 'north';
-                this.firstMove = false; // don't like this
-                this.mother.direction = this.direction;
-                this.mother.update();
+        // if a key is pressed
+        this.enoughSteps = this.steps > 32;
+
+        if (this.wKey.isDown || this.upKey.isDown && this.enoughSteps) {
+            if (this.direction != 'north') {
+                this.steps = this.difficulty;
             }
             
-            else if (this.aKey.isDown || this.leftKey.isDown && this.steps > 32) {
-                if (this.direction != 'west') {
-                    this.steps = this.difficulty;
-                }
+            this.mother.y -= 1+this.difficulty;
+            this.direction = 'north';
+            this.firstMove = false; // don't like this
+            this.mother.direction = this.direction;
+            this.mother.update();
+        }
+        
+        else if (this.aKey.isDown || this.leftKey.isDown && this.enoughSteps) {
+            if (this.direction != 'west') {
+                this.steps = this.difficulty;
+            }
+            this.mother.x -= 1+this.difficulty;
+            this.direction = 'west';
+            this.firstMove = false; // don't like this
+            this.steps = this.difficulty;
+            this.mother.direction = this.direction;
+            this.mother.update();
+        }
+
+        else if (this.sKey.isDown || this.downKey.isDown && this.enoughSteps) {
+            if (this.direction != 'south') {
+                this.steps = this.difficulty;
+            }
+            this.mother.y += 1+this.difficulty;
+            this.direction = 'south';
+            this.firstMove = false; // don't like this
+            this.steps = this.difficulty;
+            this.mother.direction = this.direction;
+            this.mother.update();
+        }
+
+        else if (this.dKey.isDown || this.rightKey.isDown && this.enoughSteps) {
+            if (this.direction != 'east') {
+                this.steps = this.difficulty;
+            }
+            this.mother.x += 1+this.difficulty;
+            this.direction = 'east';
+            this.firstMove = false; // don't like this
+            this.steps = this.difficulty;
+            this.mother.direction = this.direction;
+            this.mother.update();
+        }
+
+        // if no key is pressed
+        else if (!this.firstMove) {
+
+            if (this.direction == 'north') {
+                this.mother.y -= 1+this.difficulty;
+            }
+
+            else if (this.direction == 'west') {
                 this.mother.x -= 1+this.difficulty;
-                this.direction = 'west';
-                this.firstMove = false; // don't like this
-                this.steps = this.difficulty;
-                this.mother.direction = this.direction;
-                this.mother.update();
             }
 
-            else if (this.sKey.isDown || this.downKey.isDown && this.steps > 32) {
-                if (this.direction != 'south') {
-                    this.steps = this.difficulty;
-                }
+            else if (this.direction == 'south') {
                 this.mother.y += 1+this.difficulty;
-                this.direction = 'south';
-                this.firstMove = false; // don't like this
-                this.steps = this.difficulty;
-                this.mother.direction = this.direction;
-                this.mother.update();
-            }
 
-            else if (this.dKey.isDown || this.rightKey.isDown && this.steps > 32) {
-                if (this.direction != 'east') {
-                    this.steps = this.difficulty;
-                }
+            } else {
                 this.mother.x += 1+this.difficulty;
-                this.direction = 'east';
-                this.firstMove = false; // don't like this
-                this.steps = this.difficulty;
-                this.mother.direction = this.direction;
-                this.mother.update();
             }
-
-            // if no key is pressed
-            else if (!this.firstMove) {
-
-                if (this.direction == 'north') {
-                    this.mother.y -= 1+this.difficulty;
-                }
-
-                else if (this.direction == 'west') {
-                    this.mother.x -= 1+this.difficulty;
-                }
-
-                else if (this.direction == 'south') {
-                    this.mother.y += 1+this.difficulty;
-
-                } else {
-                    this.mother.x += 1+this.difficulty;
-                }
-                this.steps += 1+this.difficulty;
-            }
-
+            this.steps += 1+this.difficulty;
+        }
 
 
         this.cat = this.mother;
@@ -362,7 +366,7 @@ class GameStart extends Phaser.Scene {
 
            // this.cat.update();
         }
-        // if a mother picks up a kitten remove from kittens group and add to clowder group
+        // if a mother picks up a kitten remove from kittens group and add to kindle group
         this.kitten_array = this.kittens.getChildren();
         for (this.i = 0; this.i < this.kittens.getLength(); this.i++) {
             this.kitten = this.kitten_array[this.i];
@@ -382,7 +386,7 @@ class GameStart extends Phaser.Scene {
                     this.mother.tail.follower = this.kitten;
                     this.kitten.leader = this.mother.tail;
                     this.mother.tail = this.kitten;
-                    this.clowder.add(this.kitten);
+                    this.kindle.add(this.kitten);
                 }
 
                 this.kitten.direction = this.kitten.leader.direction;
