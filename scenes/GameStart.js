@@ -38,6 +38,11 @@ class GameStart extends Phaser.Scene {
 
         this.foodBowl = this.physics.add.sprite(0+116, 640-84, 'obstacles', 'food_bowl.png');
         
+        // score
+        // https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
+        this.score = 0
+        this.scoreText = this.add.text(640-190, 0+85, 'SCORE: 0', { fontSize: '20px', color: '#FFF', stroke: '#000', strokeThickness: 4 });
+
         // animations
         // https://labs.phaser.io/edit.html?src=src\animation\create%20animation%20from%20sprite%20sheet.js
         this.anims.create({
@@ -194,11 +199,13 @@ class GameStart extends Phaser.Scene {
         this.steps = 33;
     }
 
+    // IT SEEMS LIKE KITTENS CAN COLLIDE EVEN IF THEY AREN'T OVERLAPPING
     mitigateCollision(kitten, obstacle, collision) {
         this.kitten = kitten;
         this.obstacle = obstacle;
         this.collision = collision;
 
+        // https://photonstorm.github.io/phaser3-docs/Phaser.Geom.Rectangle.html
         if (Phaser.Geom.Rectangle.Overlaps(this.kitten.getBounds(), this.obstacle.getBounds())) {
             this.collision = true;
             this.kitten.x = Phaser.Math.Between(0+32+16, 640-32-16);
@@ -407,6 +414,7 @@ class GameStart extends Phaser.Scene {
                 if (this.mother.tail == null) {
                     this.mother.follower = this.kitten;
                     this.kitten.leader = this.mother;
+                    this.score++;
                     // fist kitten is not added to kindle group
                     // cosmetically this allows kitten to appear close to mother while avoiding a kindle collision
 
@@ -414,6 +422,7 @@ class GameStart extends Phaser.Scene {
                     this.mother.tail.follower = this.kitten;
                     this.kitten.leader = this.mother.tail;
                     this.kindle.add(this.kitten);
+                    this.score++;
                 }
 
                 this.mother.tail = this.kitten;
@@ -440,5 +449,8 @@ class GameStart extends Phaser.Scene {
                 this.kitten.update();
             }
         }
+
+        // https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
+        this.scoreText.setText('Score: ' + this.score);
     }
 } 
