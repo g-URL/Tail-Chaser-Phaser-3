@@ -15,6 +15,7 @@ class GameStart extends Phaser.Scene {
     create () {
         this.difficulty = 0.5;
         this.kittenSpawnRate = 5;
+
         this.cardinalDirections = ['north', 'east', 'south', 'west'];
         this.kittenColours = ['orange', 'grey', 'black'];
 
@@ -112,11 +113,7 @@ class GameStart extends Phaser.Scene {
 
         // mother
         this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'south');
-        this.tunnelTop.depth = this.mother.depth+1;
-        this.direction = this.mother.direction;
-        this.steps = 33;
-        this.firstMove = true;
-        
+
         // groups
         this.kittens = this.physics.add.group();
 
@@ -134,6 +131,29 @@ class GameStart extends Phaser.Scene {
                                     this.yarn, 
                                     this.foodBowl], 
                                     this);
+
+        // keeps track of current direction and steps taken
+        this.direction = null;
+        this.steps = 33;
+    }
+
+    mitigateCollision(kitten, obstacle, collision) {
+        this.kitten = kitten;
+        this.obstacle = obstacle;
+        this.collision = collision;
+
+        this.obstacleBoundary = this.obstacle.getBounds();
+
+        if (this.obstacleBoundary.contains(this.kitten.x, this.kitten.y) ||
+            this.obstacleBoundary.contains(this.kitten.x+16, this.kitten.y+16) ||
+            this.obstacleBoundary.contains(this.kitten.x+16, this.kitten.y-16) ||
+            this.obstacleBoundary.contains(this.kitten.x-16, this.kitten.y+16) ||
+            this.obstacleBoundary.contains(this.kitten.x-16, this.kitten.y-16))
+        {
+            this.collision = true;
+            this.kitten.x = Phaser.Math.Between(0+32+16, 640-32-16);
+            this.kitten.y = Phaser.Math.Between(0+32+16, 640-32-16);
+        }
     }
 
     update(time, delta) {
@@ -161,27 +181,28 @@ class GameStart extends Phaser.Scene {
                                         this.kittenDirection,
                                         'kitten',
                                         this.kittenColour);
-                
-                // place kitten such that they don't collide with existing obstacles
+                                        
+                this.obstacleArray = this.obstacles.getChildren();
+
+                // place kitten such that they don't collide with obstacles or kindle
                 this.collision = true;
-                this.obstacle_array = this.obstacles.getChildren();
                 while (this.collision) {
                     this.collision = false;
 
-                    for (this.j = 0; this.j < this.obstacles.getLength(); this.j++) {
-                        this.obstacle_boundary = this.obstacle_array[this.j].getBounds();
+                    // prevent kitten from colliding with obstacles
+                    // FIND A BETTER WAY TO DO THIS
+                    this.j = 0;
+                    while (this.j < this.obstacles.getLength() && !this.collision) {
+                        this.mitigateCollision(this.kitten, this.obstacleArray[this.j], this.collision, this);
+                        this.j++;
+                    }
 
-                        // NEED TO FIX SO KITTENS DON'T SPAWN ON BOUNDARY OF TUNNEL
-                        if (this.obstacle_boundary.contains(this.kitten.x, this.kitten.y) ||
-                            this.obstacle_boundary.contains(this.kitten.x+16, this.kitten.y+16) ||
-                            this.obstacle_boundary.contains(this.kitten.x+16, this.kitten.y-16) ||
-                            this.obstacle_boundary.contains(this.kitten.x-16, this.kitten.y+16) ||
-                            this.obstacle_boundary.contains(this.kitten.x-16, this.kitten.y-16))
-                        {
-                            this.collision = true;
-                            this.kitten.x = Phaser.Math.Between(0+32+16, 640-32-16);
-                            this.kitten.y = Phaser.Math.Between(0+32+16, 640-32-16);
-                        }
+                    // prevent kitten from colliding with mother or trailing kittens (kindle)
+                    // FIND A BETTER WAY TO DO THIS
+                    this.cat = this.mother;
+                    while (this.cat && !this.collision) {
+                        this.mitigateCollision(this.kitten, this.cat, this.collision, this);
+                        this.cat = this.cat.follower;
                     }
                 }
 
@@ -189,81 +210,66 @@ class GameStart extends Phaser.Scene {
             }
 
             // ensure kittens walk through tunnel
-            this.tunnelTop.depth = this.kittens.getChildren()[4].depth+1;
+            this.tunnelTop.depth = this.kittens.getChildren()[4].depth + 1;
         }
 
-        // if a WASD key is pressed
-        // if mother moves after making fewer steps than her pixel width kittens will clip and behave strangely
+        // enoughSteps is used to ensure mother only changes directions if she has moved at least her pixel width/height
+        // otherwise, kittens will clip and behave strangely
         this.enoughSteps = this.steps > 32;
 
-        if (this.wKey.isDown || this.upKey.isDown && this.enoughSteps) {
-            if (this.direction != 'north') {
-                this.steps = this.difficulty;
-            }
-
-            this.firstMove = false; // don't like this
-            this.mother.y -= 1+this.difficulty;
+        // if a WASD key is pressed
+        if (this.wKey.isDown || this.upKey.isDown && this.direction != 'north' && this.enoughSteps) {
+            this.steps = this.difficulty;
             this.direction = 'north';
             this.mother.direction = this.direction;
+            this.mother.y -= 1 + this.difficulty;
             this.mother.update();
 
-        } else if (this.dKey.isDown || this.rightKey.isDown && this.enoughSteps) {
-            if (this.direction != 'east') {
-                this.steps = this.difficulty;
-            }
-
-            this.firstMove = false; // don't like this
-            this.mother.x += 1+this.difficulty;
+        } else if (this.dKey.isDown || this.rightKey.isDown && this.direction != 'east' && this.enoughSteps) {
+            this.steps = this.difficulty;
             this.direction = 'east';
-            this.steps = this.difficulty;
             this.mother.direction = this.direction;
+            this.mother.x += 1 + this.difficulty;
             this.mother.update();
 
-        } else if (this.sKey.isDown || this.downKey.isDown && this.enoughSteps) {
-            if (this.direction != 'south') {
-                this.steps = this.difficulty;
-            }
-
-            this.firstMove = false; // don't like this
-            this.mother.y += 1+this.difficulty;
+        } else if (this.sKey.isDown || this.downKey.isDown && this.direction != 'south' && this.enoughSteps) {
+            this.steps = this.difficulty;
             this.direction = 'south';
-            this.steps = this.difficulty;
             this.mother.direction = this.direction;
+            this.mother.y += 1 + this.difficulty;
             this.mother.update();
 
-        } else if (this.aKey.isDown || this.leftKey.isDown && this.enoughSteps) {
-            if (this.direction != 'west') {
-                this.steps = this.difficulty;
-            }
-
-            this.firstMove = false; // don't like this
-            this.mother.x -= 1+this.difficulty;
-            this.direction = 'west';
+        } else if (this.aKey.isDown || this.leftKey.isDown && this.direction != 'west' && this.enoughSteps) {
             this.steps = this.difficulty;
+            this.direction = 'west';
             this.mother.direction = this.direction;
+            this.mother.x -= 1 + this.difficulty;
             this.mother.update();
 
         // if no key is pressed
-        } else if (!this.firstMove) {
+        } else if (this.direction) {
 
             if (this.direction == 'north') {
-                this.mother.y -= 1+this.difficulty;
+                this.mother.y -= 1 + this.difficulty;
 
             } else if (this.direction == 'east') {
-                this.mother.x += 1+this.difficulty;
+                this.mother.x += 1 + this.difficulty;
 
             } else if (this.direction == 'south') {
-                this.mother.y += 1+this.difficulty;
+                this.mother.y += 1 + this.difficulty;
 
-            } else if (this.direction == 'west') {
-                this.mother.x -= 1+this.difficulty;
+            // west
+            } else {
+                this.mother.x -= 1 + this.difficulty;
             }
 
-            this.steps += 1+this.difficulty;
+            this.steps +=  1 + this.difficulty;
         }
 
         
+        // iterate through kindle to update kittens
         this.cat = this.mother;
+
         while (this.cat.follower != null) {
             this.cat = this.cat.follower;
 
@@ -375,7 +381,8 @@ class GameStart extends Phaser.Scene {
                     this.kitten.x = this.kitten.leader.x;
                     this.kitten.y = this.kitten.leader.y - 33;
 
-                } else if (this.kitten.direction == 'west') {
+                // west
+                } else {
                     this.kitten.x = this.kitten.leader.x + 33;
                     this.kitten.y = this.kitten.leader.y;
                 }
