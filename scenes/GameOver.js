@@ -23,7 +23,7 @@ class GameOver extends Phaser.Scene {
         this.newGameButton.on('pointerout', function() { this.setFrame('new_game_0.png'); });
         this.newGameButton.on('pointerdown', function() { this.scene.start('Menu'); }, this);
 
-        this.keyObj = this.input.keyboard.addKey('ENTER');
-        this.keyObj.on('down', function() { this.scene.start('Menu'); }, this);
+        var keyObj = this.input.keyboard.addKey('ENTER');
+        keyObj.on('down', function() { this.scene.start('Menu'); }, this);
     }
 } 
