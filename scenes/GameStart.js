@@ -1,8 +1,25 @@
 /// <reference path='../ts/phaser.d.ts'/>
 
+const CARDINAL_DIRECTIONS = ['north', 'east', 'south', 'west'];
+const KITTEN_COLOURS = ['black', 'grey', 'orange'];
+
+
 class GameStart extends Phaser.Scene {
     constructor() {
         super('GameStart');
+
+        this.difficulty = 0.5;
+        this.kittenSpawnRate = 5;
+        this.score = 0;
+        this.wKey = undefined;
+        this.aKey = undefined;
+        this.sKey = undefined;
+        this.dKey = undefined;
+        this.upKey = undefined;
+        this.downKey = undefined;
+        this.leftKey = undefined;
+        this.rightKey = undefined;
+        this.enterKey = undefined;
     }
 
     preload () {
@@ -12,12 +29,40 @@ class GameStart extends Phaser.Scene {
         this.load.atlas('cats', 'assets/sprites/cats.png', 'assets/sprites/cats.json');
     }
 
-    create () {
-        this.difficulty = 0.5;
-        this.kittenSpawnRate = 5;
+    createAnimations(catName) {
+        // animations
+        // https://labs.phaser.io/edit.html?src=src\animation\create%20animation%20from%20sprite%20sheet.js
+        this.anims.create({
+            key: catName + '_north',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: [catName + '_north_0.png', catName + '_north_1.png'] }),
+            frameRate: 5,
+            repeat: -1,
+        });
 
-        this.cardinalDirections = ['north', 'east', 'south', 'west'];
-        this.kittenColours = ['black', 'grey', 'orange'];
+        this.anims.create({
+            key: catName + '_east',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: [catName + '_east_0.png', catName + '_east_1.png'] }),
+            frameRate: 5,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: catName + '_south',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: [catName + '_south_0.png', catName + '_south_1.png'] }),
+            frameRate: 5,
+            repeat: -1,
+        });
+
+        this.anims.create({
+            key: catName + '_west',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: [catName + '_west_0.png', catName + '_west_1.png'] }),
+            frameRate: 5,
+            repeat: -1,
+        });
+    }
+
+    create () {
+
 
         // game background and obstacles
         this.add.image(320, 320, 'board', 'board.png');
@@ -40,123 +85,13 @@ class GameStart extends Phaser.Scene {
         
         // score
         // https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
-        this.score = 0
         this.scoreText = this.add.text(640-190, 0+85, 'SCORE: 0', { fontSize: '20px', color: '#FFF', stroke: '#000', strokeThickness: 4 });
 
-        // animations
-        // https://labs.phaser.io/edit.html?src=src\animation\create%20animation%20from%20sprite%20sheet.js
-        this.anims.create({
-            key: 'mother_north',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['mother_north_0.png', 'mother_north_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'mother_east',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['mother_east_0.png', 'mother_east_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'mother_south',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['mother_south_0.png', 'mother_south_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'mother_west',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['mother_west_0.png', 'mother_west_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_black_north',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_black_north_0.png', 'kitten_black_north_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_black_east',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_black_east_0.png', 'kitten_black_east_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_black_south',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_black_south_0.png', 'kitten_black_south_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_black_west',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_black_west_0.png', 'kitten_black_west_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_orange_north',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_north_0.png', 'kitten_orange_north_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_orange_east',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_east_0.png', 'kitten_orange_east_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_orange_south',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_south_0.png', 'kitten_orange_south_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_orange_west',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_orange_west_0.png', 'kitten_orange_west_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_grey_north',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_grey_north_0.png', 'kitten_grey_north_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_grey_east',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_grey_east_0.png', 'kitten_grey_east_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_grey_south',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_grey_south_0.png', 'kitten_grey_south_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });
-
-        this.anims.create({
-            key: 'kitten_grey_west',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['kitten_grey_west_0.png', 'kitten_grey_west_1.png'] }),
-            frameRate: 5,
-            repeat: -1
-        });       
-
+        // create kitten animations
+        this.createAnimations('mother');
+        this.createAnimations('kitten_black');
+        this.createAnimations('kitten_grey');
+        this.createAnimations('kitten_orange');
 
         // keyboard input
         // https://youtu.be/7cpZ5Y7THmo?t=918
@@ -226,8 +161,8 @@ class GameStart extends Phaser.Scene {
                 this.coordinateY = Phaser.Math.Between(0+32+16, 640-32-16);
 
                 // random colour and direction
-                this.kittenColour = this.kittenColours[Phaser.Math.Between(0,2)];
-                this.kittenDirection = this.cardinalDirections[Phaser.Math.Between(0,3)];
+                this.kittenColour = KITTEN_COLOURS[Phaser.Math.Between(0,2)];
+                this.kittenDirection = CARDINAL_DIRECTIONS[Phaser.Math.Between(0,3)];
 
                 this.kitten = new CatNode(this, 
                                         this.coordinateX, 
