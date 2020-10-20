@@ -2,7 +2,7 @@
 
 class GameOver extends Phaser.Scene {
     constructor() {
-        super({key:'GameOver'});
+        super('GameOver');
     }
 
     preload ()
@@ -18,12 +18,12 @@ class GameOver extends Phaser.Scene {
         this.add.image(320, 320 - 100, 'menu', 'game_over.png');
 
         // https://www.html5gamedevs.com/topic/36850-solvederror-thisaddbutton-is-not-a-function/
-        this.newGameButton = this.add.image(320, 320 + 150, 'menu', 'new_game_0.png').setInteractive();
-        this.newGameButton.on('pointerover', function() { this.setFrame('new_game_1.png'); });
-        this.newGameButton.on('pointerout', function() { this.setFrame('new_game_0.png'); });
-        this.newGameButton.on('pointerdown', function() { this.scene.start('Menu'); }, this);
+        const newGameButton = this.add.image(320, 320 + 150, 'menu', 'new_game_0.png').setInteractive();
+        newGameButton.on('pointerover', function() { this.setFrame('new_game_1.png'); });
+        newGameButton.on('pointerout', function() { this.setFrame('new_game_0.png'); });
+        newGameButton.on('pointerdown', function() { this.scene.start('Menu'); }, this);
 
-        var keyObj = this.input.keyboard.addKey('ENTER');
+        const keyObj = this.input.keyboard.addKey('ENTER');
         keyObj.on('down', function() { this.scene.start('Menu'); }, this);
     }
 } 
