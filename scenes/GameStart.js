@@ -1,8 +1,5 @@
 /// <reference path='../ts/phaser.d.ts'/>
 
-const CARDINAL_DIRECTIONS = ['north', 'east', 'south', 'west'];
-const KITTEN_COLOURS = ['black', 'grey', 'orange'];
-
 class GameStart extends Phaser.Scene {
     constructor() {
         super('GameStart');
@@ -120,7 +117,7 @@ class GameStart extends Phaser.Scene {
         this.enterKey.on('down', function() { this.scene.start('GameOver'); }, this);
 
         // mother
-        this.mother = new MotherNode(this, 320, 320, 'cats', 'mother_south_0.png');
+        this.mother = new MotherNode(this);
 
         // groups
         this.kittens = this.physics.add.group();
@@ -150,18 +147,7 @@ class GameStart extends Phaser.Scene {
     // add kittens to the board
     addKittens() {
         for (let i = 0; i < this.kittenSpawnRate; i++) {
-            // random colour and direction
-            const kittenColour = KITTEN_COLOURS[Phaser.Math.Between(0,2)];
-            const kittenDirection = CARDINAL_DIRECTIONS[Phaser.Math.Between(0,3)];
-            const kittenType = 'kitten_' + kittenColour;
-
-            let kitten = new CatNode(this, 
-                                    680,    // spawning outside of board prevents accidental collision with mother (before first move)
-                                    680,    // spawning outside of board prevents accidental collision with mother (before first move)
-                                    'cats',                                      
-                                    kittenType + '_' + kittenDirection + '_0.png',
-                                    kittenType,
-            );
+            let kitten = new RandomKitten(this, 680, 680);
 
             const obstacleArray = this.obstacles.getChildren();
 

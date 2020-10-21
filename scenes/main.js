@@ -1,5 +1,4 @@
 /// <reference path='../ts/phaser.d.ts'/>
-//import Phaser from './phaser'
 
 const config = {
     type: Phaser.AUTO,
