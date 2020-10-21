@@ -78,7 +78,7 @@ class GameStart extends Phaser.Scene {
         this.tunnelTop = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_top.png');
         this.tunnelBottom = this.add.image(320-128, 320-32, 'obstacles', 'tunnel_bottom.png');
         this.tunnelLeftEdge = this.physics.add.sprite(320-128-63+3, 320-32, 'obstacles', 'tunnel_left.png');
-        this.tunnelRightEdge = this.physics.add.sprite(320-128+63-3, 320-32, 'obstacles', 'tunnel_right.png');
+        this.tunnelRightEdge = this.physics.add.sprite(320-128+63-3-0.5, 320-32, 'obstacles', 'tunnel_right.png');
 
         this.yarn = this.physics.add.sprite(320+128, 320+128, 'obstacles', 'yarn.png');
 
