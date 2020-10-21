@@ -114,7 +114,7 @@ class GameStart extends Phaser.Scene {
         this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         this.enterKey = this.input.keyboard.addKey('ENTER');
-        this.enterKey.on('down', function() { this.scene.start('GameOver'); }, this);
+        this.enterKey.on('down', function() { this.scene.start('GameOver', String(this.score)); }, this);
 
         // mother
         this.mother = new MotherNode(this);
@@ -140,8 +140,8 @@ class GameStart extends Phaser.Scene {
         );
 
         // if the mother collides with any obstacles or her kindle then game over
-        this.physics.add.collider(this.mother, this.kindle, function() { this.scene.start('GameOver'); }, null, this);
-        this.physics.add.collider(this.mother, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
+        this.physics.add.collider(this.mother, this.kindle, function() { this.scene.start('GameOver', String(this.score)); }, null, this);
+        this.physics.add.collider(this.mother, this.obstacles, function() { this.scene.start('GameOver', String(this.score)); }, null, this);
     }
 
     // add kittens to the board
@@ -247,7 +247,7 @@ class GameStart extends Phaser.Scene {
                     cat.y -= 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'south') {
-                    this.scene.start('GameOver');
+                    this.scene.start('GameOver', String(this.score));
 
                 } else {
                     if (Phaser.Math.Difference(cat.x, cat.leader.x) > 32) {
@@ -265,7 +265,7 @@ class GameStart extends Phaser.Scene {
                     cat.x += 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'west') {
-                    this.scene.start('GameOver');
+                    this.scene.start('GameOver', String(this.score));
 
                 } else {
                     if (Phaser.Math.Difference(cat.y, cat.leader.y) > 32) {
@@ -283,7 +283,7 @@ class GameStart extends Phaser.Scene {
                     cat.y += 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'north') {
-                    this.scene.start('GameOver');
+                    this.scene.start('GameOver', String(this.score));
 
                 } else {
                     if (Phaser.Math.Difference(cat.x, cat.leader.x) > 32) {
@@ -302,7 +302,7 @@ class GameStart extends Phaser.Scene {
                     cat.x -= 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'east') {
-                    this.scene.start('GameOver');
+                    this.scene.start('GameOver', String(this.score));
 
                 } else {
                     if (Phaser.Math.Difference(cat.y, cat.leader.y) > 32) {
