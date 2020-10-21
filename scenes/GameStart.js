@@ -3,15 +3,16 @@
 const CARDINAL_DIRECTIONS = ['north', 'east', 'south', 'west'];
 const KITTEN_COLOURS = ['black', 'grey', 'orange'];
 
-
 class GameStart extends Phaser.Scene {
     constructor() {
         super('GameStart');
 
         this.difficulty = 0.5;
         this.kittenSpawnRate = 5;
+
         this.score = undefined;
         this.scoreText = undefined;
+
         this.wKey = undefined;
         this.aKey = undefined;
         this.sKey = undefined;
@@ -23,14 +24,11 @@ class GameStart extends Phaser.Scene {
         this.enterKey = undefined;
 
         this.mother = undefined;
-        this.direction = undefined;
-        this.steps = undefined;
 
         this.obstacles = undefined;
         this.kittens = undefined;
         this.kindle = undefined;
     }
-
 
     preload () {
         // https://www.codeandweb.com/free-sprite-sheet-packer
@@ -38,7 +36,6 @@ class GameStart extends Phaser.Scene {
         this.load.atlas('obstacles', 'assets/sprites/obstacles.png', 'assets/sprites/obstacles.json');
         this.load.atlas('cats', 'assets/sprites/cats.png', 'assets/sprites/cats.json');
     }
-
 
     createAnimations(catName) {
         // animations
@@ -72,7 +69,6 @@ class GameStart extends Phaser.Scene {
         });
     }
 
-
     // place obstacles on board
     generateObstacles(){
         this.topWall = this.physics.add.sprite(320, 0+16, 'obstacles', 'board_edge_top.png');
@@ -91,7 +87,6 @@ class GameStart extends Phaser.Scene {
 
         this.foodBowl = this.physics.add.sprite(0+116, 640-84, 'obstacles', 'food_bowl.png');
     }
-
 
     create () {
         // add game background and obstacles
@@ -125,11 +120,7 @@ class GameStart extends Phaser.Scene {
         this.enterKey.on('down', function() { this.scene.start('GameOver'); }, this);
 
         // mother
-        this.mother = new CatNode(this, 320, 320, 'cats', 'mother_south_0.png', 'south');
-
-        // keeps track of current direction and steps taken
-        this.direction = null;
-        this.steps = 33;
+        this.mother = new MotherNode(this, 320, 320, 'cats', 'mother_south_0.png');
 
         // groups
         this.kittens = this.physics.add.group();
@@ -156,22 +147,20 @@ class GameStart extends Phaser.Scene {
         this.physics.add.collider(this.mother, this.obstacles, function() { this.scene.start('GameOver'); }, null, this);
     }
 
-
     // add kittens to the board
     addKittens() {
         for (let i = 0; i < this.kittenSpawnRate; i++) {
             // random colour and direction
             const kittenColour = KITTEN_COLOURS[Phaser.Math.Between(0,2)];
             const kittenDirection = CARDINAL_DIRECTIONS[Phaser.Math.Between(0,3)];
+            const kittenType = 'kitten_' + kittenColour;
 
             let kitten = new CatNode(this, 
                                     680,    // spawning outside of board prevents accidental collision with mother (before first move)
                                     680,    // spawning outside of board prevents accidental collision with mother (before first move)
                                     'cats',                                      
-                                    'kitten_' + kittenColour + '_' + kittenDirection + '_0.png', 
-                                    kittenDirection,
-                                    'kitten',
-                                    kittenColour,
+                                    kittenType + '_' + kittenDirection + '_0.png',
+                                    kittenType,
             );
 
             const obstacleArray = this.obstacles.getChildren();
@@ -209,53 +198,47 @@ class GameStart extends Phaser.Scene {
         this.tunnelTop.depth = this.kittens.getChildren()[4].depth + 1;
     }
 
-
     // analyze keyboard input and update mother's position
     updateMotherPosition() {
         // enoughSteps is used to ensure mother only changes directions if she has moved at least her pixel width/height
         // otherwise, kittens will clip and behave strangely
-        const enoughSteps = this.steps > 32;
+        const enoughSteps = this.mother.steps > 32;
 
         // if a WASD key is pressed
-        if (this.wKey.isDown || this.upKey.isDown && this.direction != 'north' && enoughSteps) {
-            this.steps = this.difficulty;
-            this.direction = 'north';
-            this.mother.direction = this.direction;
+        if ((this.wKey.isDown || this.upKey.isDown) && this.mother.direction != 'north' && enoughSteps) {
+            this.mother.steps = this.difficulty;
+            this.mother.direction = 'north';
             this.mother.y -= 1 + this.difficulty;
             this.mother.update();
 
-        } else if (this.dKey.isDown || this.rightKey.isDown && this.direction != 'east' && enoughSteps) {
-            this.steps = this.difficulty;
-            this.direction = 'east';
-            this.mother.direction = this.direction;
+        } else if ((this.dKey.isDown || this.rightKey.isDown) && this.mother.direction != 'east' && enoughSteps) {
+            this.mother.steps = this.difficulty;
+            this.mother.direction = 'east';
             this.mother.x += 1 + this.difficulty;
             this.mother.update();
 
-        } else if (this.sKey.isDown || this.downKey.isDown && this.direction != 'south' && enoughSteps) {
-            this.steps = this.difficulty;
-            this.direction = 'south';
-            this.mother.direction = this.direction;
+        } else if ((this.sKey.isDown || this.downKey.isDown) && this.mother.direction != 'south' && enoughSteps) {
+            this.mother.steps = this.difficulty;
+            this.mother.direction = 'south';
             this.mother.y += 1 + this.difficulty;
             this.mother.update();
 
-        } else if (this.aKey.isDown || this.leftKey.isDown && this.direction != 'west' && enoughSteps) {
-            this.steps = this.difficulty;
-            this.direction = 'west';
-            this.mother.direction = this.direction;
+        } else if ((this.aKey.isDown || this.leftKey.isDown) && this.mother.direction != 'west' && enoughSteps) {
+            this.mother.steps = this.difficulty;
+            this.mother.direction = 'west';
             this.mother.x -= 1 + this.difficulty;
             this.mother.update();
 
-        // if no key is pressed
-        // if it isn't the first move
-        } else if (this.direction) {
+        // if no key is pressed and if it isn't the first move
+        } else if (this.mother.direction) {
 
-            if (this.direction == 'north') {
+            if (this.mother.direction == 'north') {
                 this.mother.y -= 1 + this.difficulty;
 
-            } else if (this.direction == 'east') {
+            } else if (this.mother.direction == 'east') {
                 this.mother.x += 1 + this.difficulty;
 
-            } else if (this.direction == 'south') {
+            } else if (this.mother.direction == 'south') {
                 this.mother.y += 1 + this.difficulty;
 
             // west
@@ -263,10 +246,9 @@ class GameStart extends Phaser.Scene {
                 this.mother.x -= 1 + this.difficulty;
             }
 
-            this.steps +=  1 + this.difficulty;
+            this.mother.steps +=  1 + this.difficulty;
         }
     }
-
 
     // iterate through kindle to update kittens
     updateKindle() {
@@ -350,7 +332,6 @@ class GameStart extends Phaser.Scene {
         }
     }
 
-
     // if a mother picks up a kitten remove from kittens group and add to kindle group
     addToKindle() {
         const kitten_array = this.kittens.getChildren();
@@ -400,7 +381,6 @@ class GameStart extends Phaser.Scene {
             }
         }
     }
-
 
     update() {
         // ensure there are always kittens on the board
