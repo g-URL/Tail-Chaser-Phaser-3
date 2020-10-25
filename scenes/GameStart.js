@@ -181,7 +181,7 @@ class GameStart extends Phaser.Scene {
         }
 
         // ensure kittens walk through tunnel
-        this.tunnelTop.depth = this.kittens.getChildren()[4].depth + 1;
+        //this.tunnelTop.depth = this.score + this.kittenSpawnRate + 2;
     }
 
     // analyze keyboard input and update mother's position
@@ -238,12 +238,23 @@ class GameStart extends Phaser.Scene {
 
     // iterate through kindle to update kittens
     updateKindle() {
+        // ensure kittens walk through tunnel
+        this.tunnelTop.depth = this.score + this.kittenSpawnRate + 2;
+
         let cat = this.mother;
+        cat.depth = this.score + this.kittenSpawnRate + 1;
         while (cat.follower != null) {
             cat = cat.follower;
-
+            cat.depth = cat.leader.depth - 1;
             if (cat.direction == 'north') {
                 if (cat.leader.direction == 'north') {
+
+                    // swap depth
+                    let temp = 0;
+                    temp = cat.leader.depth;
+                    cat.leader.depth = cat.depth;
+                    cat.depth = temp;
+
                     cat.y -= 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'south') {
@@ -268,6 +279,15 @@ class GameStart extends Phaser.Scene {
                     this.scene.start('GameOver', String(this.score));
 
                 } else {
+
+                    if (cat.leader.direction == 'north') {
+                        // swap depth
+                        let temp = 0;
+                        temp = cat.leader.depth;
+                        cat.leader.depth = cat.depth;
+                        cat.depth = temp;                        
+                    }
+
                     if (Phaser.Math.Difference(cat.y, cat.leader.y) > 32) {
                         cat.x = cat.leader.x;
                         cat.direction = cat.leader.direction;
@@ -305,6 +325,15 @@ class GameStart extends Phaser.Scene {
                     this.scene.start('GameOver', String(this.score));
 
                 } else {
+
+                    if (cat.leader.direction == 'north') {
+                        // swap depth
+                        let temp = 0;
+                        temp = cat.leader.depth;
+                        cat.leader.depth = cat.depth;
+                        cat.depth = temp;                        
+                    }
+
                     if (Phaser.Math.Difference(cat.y, cat.leader.y) > 32) {
                         cat.x = cat.leader.x;
                         cat.direction = cat.leader.direction;
