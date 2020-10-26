@@ -1,10 +1,10 @@
 # Tail Chaser
-A snake game, but with cats. 
+A snake game, but with cats. The objective of the game is to pickup as many kittens as possible without colliding with trailing kittens (kindle) or board obstacles.
 
 ### Gameplay
 * Initially the cat controlled by the player, the pink mother cat, is at rest.
 * Once a WASD or arrow key is pressed the mother will begin move.
-* The objective of the game is to pickup as many kittens as possible without colliding with trailing kittens (kindle) or board obstacles.
+* The mother cat can only change directions after moving the width of her body. This allows her to make tight turns without colliding with her kindle.
 * Kittens spawn in groups of 5.
 * Kittens are cunning and hide in the tunnel.
 * Pressing the Enter key will end the game.
