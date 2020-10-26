@@ -5,7 +5,7 @@ Click [HERE](https://g-url.github.io/Tail-Chaser-Phaser-3/) to play the game!
 
 ### Gameplay
 * Initially the cat controlled by the player, the pink mother cat, is at rest.
-* Once a WASD or arrow key is pressed the mother will begin move.
+* Once a WASD or arrow key is pressed the mother will begin to move.
 * The mother cat can only change directions after moving the width of her body. This allows her to make tight turns without colliding with her kindle.
 * Kittens spawn in groups of 5.
 * Kittens are cunning and hide in the tunnel.
