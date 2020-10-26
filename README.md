@@ -6,7 +6,7 @@ A snake game, but with cats.
 * Once a WASD or arrow key is pressed the mother will begin move.
 * The objective of the game is to pickup as many kittens as possible without colliding with trailing kittens (kindle) or board obstacles.
 * Kittens spawn in groups of 5.
-* Kittens are cunning and hide in tunnel.
+* Kittens are cunning and hide in the tunnel.
 * Pressing the Enter key will end the game.
 
 ### History and Motivation
