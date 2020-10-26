@@ -2,14 +2,14 @@
 A snake game, but with cats. 
 
 ### History and Motivation
-I was looking for a project to learn JavaScript and it occured to me that it would be fun if my [old] (https://github.com/g-URL/Tail-Chaser) Tail Chaser game, originally created using pygame, could be made easily available to everyone. Remaking the game in JavaScript also gave me the opportunity to improve the game and implement techniques I should have the first time round.
+I was looking for a project to learn JavaScript and it occured to me that it would be fun if my [old](https://github.com/g-URL/Tail-Chaser) Tail Chaser game, originally created using pygame, could be made easily available to everyone. Remaking the game in JavaScript also gave me the opportunity to improve the game and implement techniques I should have the first time round.
 
 ### Built With
-* [Phaser 3] (https://phaser.io/phaser3) - The game framework
-* [Free Sprite Sheet Packer] (https://www.codeandweb.com/free-sprite-sheet-packer) - Packing sprite sheets
-* [GIMP] (https://www.gimp.org/) - Touchup of sprites and artwork
-* [Krita] (https://krita.org/en/) - Sprites and artwork
-* [XAMPP] (https://www.apachefriends.org/index.html) - Web server
+* [Phaser 3](https://phaser.io/phaser3) - The game framework
+* [Free Sprite Sheet Packer](https://www.codeandweb.com/free-sprite-sheet-packer) - Packing sprite sheets
+* [GIMP](https://www.gimp.org/) - Touchup of sprites and artwork
+* [Krita](https://krita.org/en/) - Sprites and artwork
+* [XAMPP](https://www.apachefriends.org/index.html) - Web server
 
 ### Getting Started
 1. Clone the repo.
@@ -18,7 +18,7 @@ git clone https://github.com/g-URL/Tail-Chaser-Phaser-3.git
 ```
 
 2. Setup a local web server.
-To run the game locally, you will need to setup a local web server and adjust the root/directory from the default to your git directory. I used [XAMPP] (https://www.apachefriends.org/index.html). For other options or additional information the Phaser 3 [Getting Started] (https://phaser.io/tutorials/getting-started-phaser3/part2) tutorial is very helpful.
+To run the game locally, you will need to setup a local web server and adjust the root/directory from the default to your git directory. I used [XAMPP](https://www.apachefriends.org/index.html). For other options or additional information the Phaser 3 [Getting Started](https://phaser.io/tutorials/getting-started-phaser3/part2) tutorial is very helpful.
 
 3. Using XAMPP, configure the httpd.conf file.
 ```
@@ -31,7 +31,7 @@ DocumentRoot "C:/Users/Your-Name/Documents/GitHub/Tail-Chaser-Phaser-3"
 
 ### Acknowledgements 
 * I would like to thank my friends K. Jorgensen and G. Gonzaga for coming up with the idea for the [original game] (https://github.com/g-URL/Tail-Chaser)
-* PurpleBooth for the README [template] (https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) 
+* PurpleBooth for the README [template](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2) 
 
 ### Future work
 1. Improve sprites and animations
