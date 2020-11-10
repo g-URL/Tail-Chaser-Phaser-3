@@ -37,6 +37,24 @@ class GameStart extends Phaser.Scene {
     createAnimations(catName) {
         // animations
         // https://labs.phaser.io/edit.html?src=src\animation\create%20animation%20from%20sprite%20sheet.js
+
+        // will be generalized to other kittens in the future
+        if (catName == 'mother') {
+        this.anims.create({
+            key: catName + '_sleepy',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: [catName + '_sleepy_0.png', catName + '_sleepy_1.png'] }),
+            frameRate: 2,
+            repeat: -1,        
+        })
+        }
+
+        this.anims.create({
+            key: 'sleepy',
+            frames: this.anims.generateFrameNumbers('cats', {  frames: ['sleepy_0.png', 'sleepy_1.png', 'sleepy_2.png', 'sleepy_3.png'] }),
+            frameRate: 3,
+            repeat: -1,
+        })
+
         this.anims.create({
             key: catName + '_north',
             frames: this.anims.generateFrameNumbers('cats', {  frames: [catName + '_north_0.png', catName + '_north_1.png'] }),
@@ -217,6 +235,9 @@ class GameStart extends Phaser.Scene {
 
         // if no key is pressed and if it isn't the first move
         } else if (this.mother.direction) {
+
+            // FIND BETTER WAY TO DO THIS!!!!
+            this.mother.destroySpecial();
 
             if (this.mother.direction == 'north') {
                 this.mother.y -= 1 + this.difficulty;
