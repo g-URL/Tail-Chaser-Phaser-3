@@ -25,6 +25,9 @@ class Menu extends Phaser.Scene {
         const enterKey = this.input.keyboard.addKey('ENTER');
         enterKey.on('down', function() { this.scene.start('GameStart'); }, this);
 
+        const fKey = this.input.keyboard.addKey('F');
+        fKey.on('down', function() { this.scene.start('Settings'); }, this);
+
         // from starter code
         const logo = this.physics.add.image(400, 100, 'mother', 'mother_south_0.png');
         logo.setVelocity(100, 200);
