@@ -37,20 +37,12 @@ class RandomKitten extends CatNode {
 
 class MotherNode extends CatNode {
     // spawning mother in middle of board (320,320)
-    constructor(scene, x=320, y=320, key, frame='mother_south_0.png', type='mother', direction=null, leader=null, follower=null, tail=null, steps=33, special=null) {
+    constructor(scene, x=320, y=320, key, frame='mother_south_0.png', type='mother', direction=null, leader=null, follower=null, tail=null, steps=33) {
         super(scene, x, y, key, frame, type, direction, leader, follower);
 
         this.tail = tail;
         this.steps = steps;
-        this.special = special;
 
-        this.special = this.scene.add.sprite(this.x+30, this.y-30, this.key, null, this);
-        this.special.play('sleepy');
         this.play('mother_sleepy');
-    }
-
-    // FIND BETTER WAY TO DO THIS!!!!
-    destroySpecial() {
-        this.special.destroy(true);
     }
 }

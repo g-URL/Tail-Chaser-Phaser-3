@@ -42,18 +42,11 @@ class GameStart extends Phaser.Scene {
         if (catName == 'mother') {
         this.anims.create({
             key: catName + '_sleepy',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: [catName + '_sleepy_0.png', catName + '_sleepy_1.png'] }),
+            frames: this.anims.generateFrameNumbers('cats', {  frames: [catName + '_sleepy_0.png', catName + '_sleepy_1.png', catName + '_sleepy_2.png', catName + '_sleepy_3.png'] }),
             frameRate: 2,
             repeat: -1,        
         })
         }
-
-        this.anims.create({
-            key: 'sleepy',
-            frames: this.anims.generateFrameNumbers('cats', {  frames: ['sleepy_0.png', 'sleepy_1.png', 'sleepy_2.png', 'sleepy_3.png'] }),
-            frameRate: 3,
-            repeat: -1,
-        })
 
         this.anims.create({
             key: catName + '_north',
@@ -235,9 +228,6 @@ class GameStart extends Phaser.Scene {
 
         // if no key is pressed and if it isn't the first move
         } else if (this.mother.direction) {
-
-            // FIND BETTER WAY TO DO THIS!!!!
-            this.mother.destroySpecial();
 
             if (this.mother.direction == 'north') {
                 this.mother.y -= 1 + this.difficulty;
