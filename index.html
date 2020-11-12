@@ -3,6 +3,24 @@
 <head>
     <meta charset='UTF-8'>
 
+    <!-- custom EightbyFive font created with BitFontMaker2:
+    http://www.pentacom.jp/pentacom/bitfontmaker2/ -->
+
+    <!-- this can (should?) go in a css file instead -->
+    <!-- https://learn.yorkcs.com/2019/09/28/phaser-3-basics-custom-fonts/ -->
+    <style>
+    @font-face {
+        font-family: 'EightbyFive';
+        src: url('assets/EightbyFive.ttf');
+        font-weight: 400;
+        font-weight: normal;
+    }
+    </style>
+
+    <!-- resolves font loading issue:
+    https://stackoverflow.com/questions/52001243/how-to-use-a-external-font-using-bitmaptext-or-text-in-phaser-3 -->
+    <span style='font-family:"EightbyFive"'></span>
+
     <!-- https://www.jsdelivr.com/package/gh/photonstorm/phaser?version=3.24.1&path=dist -->
     <script src='https://cdn.jsdelivr.net/gh/photonstorm/phaser@3.24.1/dist/phaser.js'></script>
     
