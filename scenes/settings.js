@@ -12,7 +12,7 @@ class Settings extends Phaser.Scene {
 
     create () {
         this.add.image(320, 320, 'board', 'board.png');
-        let myText = this.add.text(320,320,'(01[2]334)(AB[C]DE)', {fontFamily: 'EightbyFive', color: '#000'});
+        let myText = this.add.text(320,320,'VEST vest', {fontFamily: 'EightbyFive', color: '#000'});
         myText.style.setFontSize(32);
 
         // https://www.html5gamedevs.com/topic/36850-solvederror-thisaddbutton-is-not-a-function/
