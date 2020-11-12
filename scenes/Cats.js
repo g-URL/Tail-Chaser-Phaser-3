@@ -15,7 +15,7 @@ class CatNode extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this);
     }
 
-    update(){
+    update() {
         this.play(this.type + '_' + this.direction, this);
     }
 }
