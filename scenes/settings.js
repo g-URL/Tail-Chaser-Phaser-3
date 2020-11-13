@@ -21,7 +21,7 @@ class Settings extends Phaser.Scene {
 
 
         // https://www.html5gamedevs.com/topic/36850-solvederror-thisaddbutton-is-not-a-function/
-        this.choice = new Button(this, 320, 320, 400, 40, 'SPECIAL THANKS TO THOMAS');
+        this.choice = new Button(this, 320, 320, 400, 40, 'THE QUICK BROWN FOX\n JUMPS OVER THE LAZY DOG\n the quick brown\n fox jumps over the lazy dog\n0123456789\n!@#$%^&*()+=[]{},.<>/?');
         //let text = this.choice.getText();
         //text.setFontSize('40px');
 
