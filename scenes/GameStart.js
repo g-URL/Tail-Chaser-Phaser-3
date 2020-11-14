@@ -153,6 +153,9 @@ class GameStart extends Phaser.Scene {
         // if the mother collides with any obstacles or her kindle then game over
         this.physics.add.collider(this.mother, this.kindle, function() { this.scene.start('GameOver', String(this.score)); }, null, this);
         this.physics.add.collider(this.mother, this.obstacles, function() { this.scene.start('GameOver', String(this.score)); }, null, this);
+
+        // required to prevent detecting isDown from Menu selection
+        this.input.mousePointer.isDown = false;
     }
 
     // add kittens to the board
@@ -190,9 +193,36 @@ class GameStart extends Phaser.Scene {
 
             this.kittens.add(kitten);
         }
+    }
 
-        // ensure kittens walk through tunnel
-        //this.tunnelTop.depth = this.score + this.kittenSpawnRate + 2;
+    // determines the direction the mother should move based on mouse click
+    checkMouseClick() {
+
+        if (this.input.mousePointer.isDown && this.input.mousePointer.downX < 640 && this.input.mousePointer.downY < 640) {
+            let absX = Phaser.Math.Difference(this.input.mousePointer.downX, this.mother.x);
+            let absY = Phaser.Math.Difference(this.input.mousePointer.downY, this.mother.y);         
+    
+            if (absY > absX) {
+                if (this.input.mousePointer.downY < this.mother.y) {
+                    return 'north';
+    
+                } else {
+                    return 'south';
+                }
+            }
+        
+            // intentionally no else statement here (only want to act on unambiguous input)
+            if (absX > absY) {
+                if (this.input.mousePointer.downX < this.mother.x) {
+                    return 'west';
+    
+                } else {
+                    return 'east';
+                }
+            }
+        }
+
+        return 'n/a';
     }
 
     // analyze keyboard input and update mother's position
@@ -201,26 +231,29 @@ class GameStart extends Phaser.Scene {
         // otherwise, kittens will clip and behave strangely
         const enoughSteps = this.mother.steps > 32;
 
-        // if a WASD key is pressed
-        if ((this.wKey.isDown || this.upKey.isDown) && this.mother.direction != 'north' && enoughSteps) {
+        // mouse input
+        let mouseMove = this.checkMouseClick();
+
+        // if a WASD key/mouse is pressed
+        if ((this.wKey.isDown || this.upKey.isDown || (mouseMove == 'north')) && this.mother.direction != 'north' && enoughSteps) {
             this.mother.steps = this.difficulty;
             this.mother.direction = 'north';
             this.mother.y -= 1 + this.difficulty;
             this.mother.update();
 
-        } else if ((this.dKey.isDown || this.rightKey.isDown) && this.mother.direction != 'east' && enoughSteps) {
+        } else if ((this.dKey.isDown || this.rightKey.isDown || (mouseMove == 'east')) && this.mother.direction != 'east' && enoughSteps) {
             this.mother.steps = this.difficulty;
             this.mother.direction = 'east';
             this.mother.x += 1 + this.difficulty;
             this.mother.update();
 
-        } else if ((this.sKey.isDown || this.downKey.isDown) && this.mother.direction != 'south' && enoughSteps) {
+        } else if ((this.sKey.isDown || this.downKey.isDown || (mouseMove == 'south')) && this.mother.direction != 'south' && enoughSteps) {
             this.mother.steps = this.difficulty;
             this.mother.direction = 'south';
             this.mother.y += 1 + this.difficulty;
             this.mother.update();
 
-        } else if ((this.aKey.isDown || this.leftKey.isDown) && this.mother.direction != 'west' && enoughSteps) {
+        } else if ((this.aKey.isDown || this.leftKey.isDown || (mouseMove == 'west')) && this.mother.direction != 'west' && enoughSteps) {
             this.mother.steps = this.difficulty;
             this.mother.direction = 'west';
             this.mother.x -= 1 + this.difficulty;
@@ -260,7 +293,7 @@ class GameStart extends Phaser.Scene {
             if (cat.direction == 'north') {
                 if (cat.leader.direction == 'north') {
 
-                    // swap depth
+                    // swap depth <-- SHOULD MAKE INTO A FUNCTION
                     let temp = 0;
                     temp = cat.leader.depth;
                     cat.leader.depth = cat.depth;
