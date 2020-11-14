@@ -14,29 +14,20 @@ class Menu extends Phaser.Scene {
 
     create () {
         this.add.image(320, 320, 'board', 'board.png');
-        //this.add.image(320, 320 - 120, 'menu', 'game_title.png');
 
-        // https://www.html5gamedevs.com/topic/36850-solvederror-thisaddbutton-is-not-a-function/
-        /*
-        const newGameButton = this.add.image(320, 320 + 150, 'menu', 'new_game_0.png').setInteractive();
-        newGameButton.on('pointerover', function() { this.setFrame('new_game_1.png'); });
-        newGameButton.on('pointerout', function() { this.setFrame('new_game_0.png'); });
-        newGameButton.on('pointerdown', function() { this.scene.start('GameStart'); }, this);
-        */
-
-        // DON'T LIKE THIS, WHEN I USE 'TAIL\nCHASER' there's a large gap between the first and second line
-        let title1 = this.add.text(320, 100, 'TAIL', { fontFamily: 'EightbyFive', fontSize: '150px', color: 'black', fontStyle: 'bold', align: 'center'});
+        // DON'T LIKE THIS - when I use 'TAIL\nCHASER' there's a large gap between the first and second line
+        let title1 = this.add.text(320, 100, 'TAIL', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center'});
         title1.setOrigin(0.5);
-        let title2 = this.add.text(320, 200, 'CHASER', { fontFamily: 'EightbyFive', fontSize: '150px', color: 'black', fontStyle: 'bold', align: 'center'});
+        let title2 = this.add.text(320, 220, 'CHASER', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center'});
         title2.setOrigin(0.5);     
 
-        new Button(this, 320, 400, 340, 80, 'PLAY GAME', 'GameStart');
+        new Button(this, 320, 450, 380, 100, 'PLAY GAME', 'GameStart');
         //new Button(this, 320, 500, 340, 80, 'SETTINGS', 'Settings');        
 
         const enterKey = this.input.keyboard.addKey('ENTER');
         enterKey.on('down', function() { this.scene.start('GameStart'); }, this);
 
-        // low-key testing
+        // low-key prod testing/development
         const lKey = this.input.keyboard.addKey('L');
         lKey.on('down', function() { this.scene.start('Settings'); }, this);
 

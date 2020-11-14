@@ -15,15 +15,18 @@ class GameOver extends Phaser.Scene {
     create (score)
     {
         this.add.image(320, 320, 'board', 'board_red.png');
-        this.add.image(320, 320 - 100, 'menu', 'game_over.png');
 
-        // https://www.html5gamedevs.com/topic/36850-solvederror-thisaddbutton-is-not-a-function/
-        const newGameButton = this.add.image(320, 320 + 150, 'menu', 'new_game_0.png').setInteractive();
-        newGameButton.on('pointerover', function() { this.setFrame('new_game_1.png'); });
-        newGameButton.on('pointerout', function() { this.setFrame('new_game_0.png'); });
-        newGameButton.on('pointerdown', function() { this.scene.start('GameStart'); }, this);
+        // DON'T LIKE THIS - when I use 'TAIL\nCHASER' there's a large gap between the first and second line
+        let title1 = this.add.text(320, 100, 'GAME', { fontFamily: 'EightbyFive', fontSize: '220px', color: 'black', fontStyle: 'bold', align: 'center' });
+        title1.setOrigin(0.5);
+        let title2 = this.add.text(320, 240, 'OVER', { fontFamily: 'EightbyFive', fontSize: '220px', color: 'black', fontStyle: 'bold', align: 'center' });
+        title2.setOrigin(0.5);     
 
-        this.add.text(240, 550, 'Score: '+score, { fontSize: '32px', color: '#000', stroke: '#000', strokeThickness: 3 });
+        new Button(this, 320, 400, 340, 80, 'NEW GAME', 'GameStart');
+        new Button(this, 320, 500, 340, 80, 'MAIN MENU', 'Menu');
+
+        let scoreText = this.add.text(320, 565, 'Score: '+score, { fontFamily: 'EightbyFive', fontSize: '50px', color: 'black', fontStyle: 'bold', align: 'center' });
+        scoreText.setOrigin(0.5);
 
         const keyObj = this.input.keyboard.addKey('ENTER');
         keyObj.on('down', function() { this.scene.start('GameStart'); }, this);
