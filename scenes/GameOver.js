@@ -25,7 +25,7 @@ class GameOver extends Phaser.Scene {
         new Button(this, 320, 400, 340, 80, 'NEW GAME', 'GameStart');
         new Button(this, 320, 500, 340, 80, 'MAIN MENU', 'Menu');
 
-        let scoreText = this.add.text(320, 565, 'Score: '+score, { fontFamily: 'EightbyFive', fontSize: '50px', color: 'black', fontStyle: 'bold', align: 'center' });
+        let scoreText = this.add.text(320, 565, 'SCORE: '+score, { fontFamily: 'EightbyFive', fontSize: '50px', color: 'black', fontStyle: 'bold', align: 'center' });
         scoreText.setOrigin(0.5);
 
         const keyObj = this.input.keyboard.addKey('ENTER');

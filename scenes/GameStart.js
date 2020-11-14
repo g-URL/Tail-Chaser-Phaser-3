@@ -104,7 +104,8 @@ class GameStart extends Phaser.Scene {
         // score
         // https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
         this.score = 0;
-        this.scoreText = this.add.text(640-190, 0+85, 'SCORE: 0', { fontSize: '20px', color: '#FFF', stroke: '#000', strokeThickness: 4 });
+        this.scoreText = this.add.text(640-130, 0+98, 'SCORE: 0', { fontFamily: 'EightbyFive', fontSize: '30px', color: 'black', fontStyle: 'bold', stroke: 'grey', strokeThickness: 3, align: 'center' });
+        this.scoreText.setOrigin(0.5);
 
         // create kitten animations
         this.createAnimations('mother');
@@ -457,6 +458,6 @@ class GameStart extends Phaser.Scene {
         this.addToKindle();
 
         // https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
-        this.scoreText.setText('Score: ' + this.score);
+        this.scoreText.setText('SCORE: ' + this.score);
     }
 } 
