@@ -156,6 +156,7 @@ class GameStart extends Phaser.Scene {
 
         // required to prevent detecting isDown from Menu selection
         this.input.mousePointer.isDown = false;
+        this.input.pointer1.isDown = false;
     }
 
     // add kittens to the board
@@ -195,29 +196,43 @@ class GameStart extends Phaser.Scene {
         }
     }
 
-    // determines the direction the mother should move based on mouse click
-    checkMouseClick() {
+    // determines the direction the mother should move based on mouse click or mobile tap
+    checkCursorMove() {
+        if (this.input.mousePointer.isDown || this.input.pointer1.isDown) {
+            let cursorX;
+            let cursorY;
 
-        if (this.input.mousePointer.isDown && this.input.mousePointer.downX < 640 && this.input.mousePointer.downY < 640) {
-            let absX = Phaser.Math.Difference(this.input.mousePointer.downX, this.mother.x);
-            let absY = Phaser.Math.Difference(this.input.mousePointer.downY, this.mother.y);         
-    
-            if (absY > absX) {
-                if (this.input.mousePointer.downY < this.mother.y) {
-                    return 'north';
-    
-                } else {
-                    return 'south';
-                }
+            if (this.input.mousePointer.isDown) {
+                cursorX = this.input.mousePointer.downX;
+                cursorY = this.input.mousePointer.downY;
+
+            // pointer1
+            } else {
+                cursorX = this.input.pointer1.downX;
+                cursorY = this.input.pointer1.downY;
             }
+
+            if (cursorX < 640 && cursorY < 640) {
+                let absX = Phaser.Math.Difference(cursorX, this.mother.x);
+                let absY = Phaser.Math.Difference(cursorY, this.mother.y);  
+
+                if (absY > absX) {
+                    if (this.input.mousePointer.downY < this.mother.y) {
+                        return 'north';
         
-            // intentionally no else statement here (only want to act on unambiguous input)
-            if (absX > absY) {
-                if (this.input.mousePointer.downX < this.mother.x) {
-                    return 'west';
-    
-                } else {
-                    return 'east';
+                    } else {
+                        return 'south';
+                    }
+                }
+            
+                // intentionally no else statement here (only want to act on unambiguous input)
+                if (absX > absY) {
+                    if (this.input.mousePointer.downX < this.mother.x) {
+                        return 'west';
+        
+                    } else {
+                        return 'east';
+                    }
                 }
             }
         }
@@ -232,28 +247,28 @@ class GameStart extends Phaser.Scene {
         const enoughSteps = this.mother.steps > 32;
 
         // mouse input
-        let mouseMove = this.checkMouseClick();
+        let cursorMove = this.checkCursorMove();
 
         // if a WASD key/mouse is pressed
-        if ((this.wKey.isDown || this.upKey.isDown || (mouseMove == 'north')) && this.mother.direction != 'north' && enoughSteps) {
+        if ((this.wKey.isDown || this.upKey.isDown || (cursorMove == 'north')) && this.mother.direction != 'north' && enoughSteps) {
             this.mother.steps = this.difficulty;
             this.mother.direction = 'north';
             this.mother.y -= 1 + this.difficulty;
             this.mother.update();
 
-        } else if ((this.dKey.isDown || this.rightKey.isDown || (mouseMove == 'east')) && this.mother.direction != 'east' && enoughSteps) {
+        } else if ((this.dKey.isDown || this.rightKey.isDown || (cursorMove == 'east')) && this.mother.direction != 'east' && enoughSteps) {
             this.mother.steps = this.difficulty;
             this.mother.direction = 'east';
             this.mother.x += 1 + this.difficulty;
             this.mother.update();
 
-        } else if ((this.sKey.isDown || this.downKey.isDown || (mouseMove == 'south')) && this.mother.direction != 'south' && enoughSteps) {
+        } else if ((this.sKey.isDown || this.downKey.isDown || (cursorMove == 'south')) && this.mother.direction != 'south' && enoughSteps) {
             this.mother.steps = this.difficulty;
             this.mother.direction = 'south';
             this.mother.y += 1 + this.difficulty;
             this.mother.update();
 
-        } else if ((this.aKey.isDown || this.leftKey.isDown || (mouseMove == 'west')) && this.mother.direction != 'west' && enoughSteps) {
+        } else if ((this.aKey.isDown || this.leftKey.isDown || (cursorMove == 'west')) && this.mother.direction != 'west' && enoughSteps) {
             this.mother.steps = this.difficulty;
             this.mother.direction = 'west';
             this.mother.x -= 1 + this.difficulty;
