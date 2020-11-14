@@ -196,7 +196,7 @@ class GameStart extends Phaser.Scene {
         }
     }
 
-    // determines the direction the mother should move based on mouse click or mobile tap
+    // determines the direction the mother should move based on activePointer (mouse click or mobile tap)
     checkCursorMove() {
         if (this.input.activePointer.isDown) {
             let cursorX = this.input.activePointer.x;
@@ -236,7 +236,7 @@ class GameStart extends Phaser.Scene {
         // otherwise, kittens will clip and behave strangely
         const enoughSteps = this.mother.steps > 32;
 
-        // mouse input
+        // checks for mouse or mobile input
         let cursorMove = this.checkCursorMove();
 
         // if a WASD key/mouse is pressed
