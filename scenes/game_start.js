@@ -2,7 +2,7 @@
 
 class GameStart extends Phaser.Scene {
     constructor() {
-        super('GameStart');
+        super('Game Start');
 
         this.difficulty = 0.5;
         this.kittenSpawnRate = 5;
@@ -104,8 +104,7 @@ class GameStart extends Phaser.Scene {
         // score
         // https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
         this.score = 0;
-        this.scoreText = this.add.text(640-130, 0+95, 'SCORE: 0', { fontFamily: 'EightbyFive', fontSize: '30px', color: 'black', fontStyle: 'bold', stroke: 'grey', strokeThickness: 3, align: 'center' });
-        this.scoreText.setOrigin(0.5);
+        this.scoreText = this.add.text(640-130, 0+95, 'SCORE: 0', { fontFamily: 'EightbyFive', fontSize: '30px', color: 'black', fontStyle: 'bold', stroke: 'grey', strokeThickness: 3, align: 'center' }).setOrigin(0.5);
 
         // create kitten animations
         this.createAnimations('mother');
@@ -126,10 +125,10 @@ class GameStart extends Phaser.Scene {
         this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         this.enterKey = this.input.keyboard.addKey('ENTER');
-        this.enterKey.on('down', function() { this.scene.start('GameOver', String(this.score)); }, this);
+        this.enterKey.on('down', function() { this.scene.start('Game Over', String(this.score)); }, this);
 
         // mother
-        this.mother = new MotherNode(this);
+        this.mother = new Mother(this);
 
         // groups
         this.kittens = this.physics.add.group();
@@ -152,8 +151,8 @@ class GameStart extends Phaser.Scene {
         );
 
         // if the mother collides with any obstacles or her kindle then game over
-        this.physics.add.collider(this.mother, this.kindle, function() { this.scene.start('GameOver', String(this.score)); }, null, this);
-        this.physics.add.collider(this.mother, this.obstacles, function() { this.scene.start('GameOver', String(this.score)); }, null, this);
+        this.physics.add.collider(this.mother, this.kindle, function() { this.scene.start('Game Over', String(this.score)); }, null, this);
+        this.physics.add.collider(this.mother, this.obstacles, function() { this.scene.start('Game Over', String(this.score)); }, null, this);
 
         // required to prevent detecting isDown from Menu selection
         this.input.activePointer.isDown = false;
@@ -307,7 +306,7 @@ class GameStart extends Phaser.Scene {
                     cat.y -= 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'south') {
-                    this.scene.start('GameOver', String(this.score));
+                    this.scene.start('Game Over', String(this.score));
 
                 } else {
                     if (Phaser.Math.Difference(cat.x, cat.leader.x) > 32) {
@@ -325,7 +324,7 @@ class GameStart extends Phaser.Scene {
                     cat.x += 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'west') {
-                    this.scene.start('GameOver', String(this.score));
+                    this.scene.start('Game Over', String(this.score));
 
                 } else {
 
@@ -352,7 +351,7 @@ class GameStart extends Phaser.Scene {
                     cat.y += 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'north') {
-                    this.scene.start('GameOver', String(this.score));
+                    this.scene.start('Game Over', String(this.score));
 
                 } else {
                     if (Phaser.Math.Difference(cat.x, cat.leader.x) > 32) {
@@ -371,7 +370,7 @@ class GameStart extends Phaser.Scene {
                     cat.x -= 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'east') {
-                    this.scene.start('GameOver', String(this.score));
+                    this.scene.start('Game Over', String(this.score));
 
                 } else {
 

@@ -6,35 +6,31 @@ class Menu extends Phaser.Scene {
     }
 
     preload () {
-        // https://www.codeandweb.com/free-sprite-sheet-packer
         this.load.atlas('board', 'assets/sprites/board.png', 'assets/sprites/board.json');
-        this.load.atlas('menu', 'assets/sprites/menu.png', 'assets/sprites/menu.json');
-        this.load.atlas('mother', 'assets/sprites/mother.png', 'assets/sprites/mother.json');
+        this.load.atlas('cats', 'assets/sprites/cats.png', 'assets/sprites/cats.json');
     }
 
     create () {
         this.add.image(320, 320, 'board', 'board.png');
 
-        // DON'T LIKE THIS - when I use 'TAIL\nCHASER' there's a large gap between the first and second line
-        let title1 = this.add.text(320, 100, 'TAIL', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center'});
-        title1.setOrigin(0.5);
-        let title2 = this.add.text(320, 220, 'CHASER', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center'});
-        title2.setOrigin(0.5);     
+        // DON'T LIKE THIS - but when I use 'TAIL\nCHASER' there's a large gap between the first and second line
+        const title1 = this.add.text(320, 100, 'TAIL', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center' }).setOrigin(0.5);
+        const title2 = this.add.text(320, 220, 'CHASER', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center' }).setOrigin(0.5);
 
-        new Button(this, 320, 450, 380, 100, 'PLAY GAME', 'GameStart');
-        //new Button(this, 320, 500, 340, 80, 'SETTINGS', 'Settings');        
+        // sleeping mother
+        this.anims.create({
+            key: 'mother_sleepy',
+            frames: this.anims.generateFrameNumbers('cats', { frames: ['mother_sleepy_0.png', 'mother_sleepy_1.png', 'mother_sleepy_2.png', 'mother_sleepy_3.png'] }),
+            frameRate: 2,
+            repeat: -1,
+        });
+        this.add.sprite(490, 180-2, 'cats', 'mother_south_0.png').play('mother_sleepy');
 
-        const enterKey = this.input.keyboard.addKey('ENTER');
-        enterKey.on('down', function() { this.scene.start('GameStart'); }, this);
+        new Button(this, 320, 450, 380, 100, 'PLAY GAME', 'Game Start');
+        //new Button(this, 320, 500, 340, 80, 'SETTINGS', 'Settings');
 
         // low-key prod testing/development
         const lKey = this.input.keyboard.addKey('L');
         lKey.on('down', function() { this.scene.start('Settings'); }, this);
-
-        // from starter code
-        const logo = this.physics.add.image(400, 100, 'mother', 'mother_south_0.png');
-        logo.setVelocity(100, 200);
-        logo.setBounce(1, 1);
-        logo.setCollideWorldBounds(true);
     }
 } 

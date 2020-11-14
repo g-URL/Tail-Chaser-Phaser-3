@@ -34,8 +34,7 @@ class RandomKitten extends CatNode {
     }
 }
 
-
-class MotherNode extends CatNode {
+class Mother extends CatNode {
     // spawning mother in middle of board (320,320)
     constructor(scene, x=320, y=320, key, frame='mother_south_0.png', type='mother', direction=null, leader=null, follower=null, tail=null, steps=33) {
         super(scene, x, y, key, frame, type, direction, leader, follower);

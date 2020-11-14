@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='UTF-8'>
+    <!--
+        <acknowledgements>
+            Sprite Sheet Packer: https://www.codeandweb.com/free-sprite-sheet-packer 
+            Font: original EightbyFive font created with BitFontMaker2: http://www.pentacom.jp/pentacom/bitfontmaker2/
+            Boiler Plate: https://youtu.be/7cpZ5Y7THmo
+        </acknowledgements>
+    -->
 
-    <!-- custom EightbyFive font created with BitFontMaker2:
-    http://www.pentacom.jp/pentacom/bitfontmaker2/ -->
+    <!-- ADD A IMAGE FOR FAVICON AND IMAGE/GIF FOR LINKING TO OTHER WEBSITES! -->
+
+    <meta charset='UTF-8'>
 
     <!-- this can (should?) go in a css file instead -->
     <!-- https://learn.yorkcs.com/2019/09/28/phaser-3-basics-custom-fonts/ -->
@@ -12,26 +19,26 @@
     @font-face {
         font-family: 'EightbyFive';
         src: url('assets/fonts/EightbyFive.ttf');
-        font-weight: 400;
-        font-weight: normal;
     }
+
+    body { background-color: grey; }
     </style>
 
     <!-- resolves font loading issue:
     https://stackoverflow.com/questions/52001243/how-to-use-a-external-font-using-bitmaptext-or-text-in-phaser-3 -->
     <span style='font-family:"EightbyFive"'></span>
 
-    <!-- https://www.jsdelivr.com/package/gh/photonstorm/phaser?version=3.24.1&path=dist -->
+    <!-- CDN: https://www.jsdelivr.com/package/gh/photonstorm/phaser?version=3.24.1&path=dist -->
     <script src='https://cdn.jsdelivr.net/gh/photonstorm/phaser@3.24.1/dist/phaser.js'></script>
     
-    <script src='scenes/Menu.js'></script>
+    <script src='scenes/menu.js'></script>
     <script src='scenes/button.js'></script>
     <script src='scenes/settings.js'></script>
-    <script src='scenes/Cats.js'></script>
-    <script src='scenes/GameStart.js'></script>
-    <script src='scenes/GameOver.js'></script>
+    <script src='scenes/cats.js'></script>
+    <script src='scenes/game_start.js'></script>
+    <script src='scenes/game_over.js'></script>
     <script src='scenes/main.js'></script>
 </head>
-<body style='background-color: gray;'>
+<body>
 </body>
 </html>
