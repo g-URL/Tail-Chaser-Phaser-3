@@ -217,7 +217,7 @@ class GameStart extends Phaser.Scene {
                 let absY = Phaser.Math.Difference(cursorY, this.mother.y);  
 
                 if (absY > absX) {
-                    if (this.input.mousePointer.downY < this.mother.y) {
+                    if (cursorY < this.mother.y) {
                         return 'north';
         
                     } else {
@@ -227,7 +227,7 @@ class GameStart extends Phaser.Scene {
             
                 // intentionally no else statement here (only want to act on unambiguous input)
                 if (absX > absY) {
-                    if (this.input.mousePointer.downX < this.mother.x) {
+                    if (cursorX < this.mother.x) {
                         return 'west';
         
                     } else {
