@@ -104,7 +104,7 @@ class GameStart extends Phaser.Scene {
         // score
         // https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
         this.score = 0;
-        this.scoreText = this.add.text(640-130, 0+98, 'SCORE: 0', { fontFamily: 'EightbyFive', fontSize: '30px', color: 'black', fontStyle: 'bold', stroke: 'grey', strokeThickness: 3, align: 'center' });
+        this.scoreText = this.add.text(640-130, 0+95, 'SCORE: 0', { fontFamily: 'EightbyFive', fontSize: '30px', color: 'black', fontStyle: 'bold', stroke: 'grey', strokeThickness: 3, align: 'center' });
         this.scoreText.setOrigin(0.5);
 
         // create kitten animations
@@ -156,8 +156,7 @@ class GameStart extends Phaser.Scene {
         this.physics.add.collider(this.mother, this.obstacles, function() { this.scene.start('GameOver', String(this.score)); }, null, this);
 
         // required to prevent detecting isDown from Menu selection
-        this.input.mousePointer.isDown = false;
-        this.input.pointer1.isDown = false;
+        this.input.activePointer.isDown = false;
     }
 
     // add kittens to the board
