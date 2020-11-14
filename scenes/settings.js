@@ -13,7 +13,12 @@ class Settings extends Phaser.Scene {
     create () {
         this.add.image(320, 320, 'board', 'board.png');
 
+        let title = this.add.text(320, 150, 'SETTINGS', { fontFamily: 'EightbyFive', fontSize: '128px', color: 'black', fontStyle: 'bold'});
+        title.setOrigin(0.5);
+
         // https://www.html5gamedevs.com/topic/36850-solvederror-thisaddbutton-is-not-a-function/
-        this.choice = new Button(this, 320, 320, 200, 80, 'TESTESTEST');
+        new Button(this, 320, 300, 340, 80, 'DIFFICULTY', 'Menu');
+        new Button(this, 320, 400, 340, 80, 'SPAWN RATE', 'Menu');       
+        new Button(this, 320, 500, 340, 80, 'MAIN MENU', 'Menu');
     }
 } 
