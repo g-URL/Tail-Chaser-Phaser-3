@@ -5,7 +5,7 @@ Click [HERE](https://g-url.github.io/Tail-Chaser-Phaser-3/) to play the game!
 
 ### Gameplay
 * Initially the cat controlled by the player, the pink mother cat, is at rest.
-* Once a WASD or arrow key is pressed the mother will begin to move.
+* Once a WASD or arrow key is pressed or mouseclick/screen tap is detected the mother will begin to move.
 * The mother cat can only change directions after moving the width of her body. This allows her to make tight turns without colliding with her kindle.
 * Kittens spawn in groups of 5.
 * Kittens are cunning and hide in the tunnel.
@@ -17,7 +17,8 @@ I was looking for a project to learn JavaScript and it occured to me that it wou
 ### Built With
 * [Phaser 3](https://phaser.io/phaser3) - The game framework
 * [Free Sprite Sheet Packer](https://www.codeandweb.com/free-sprite-sheet-packer) - Packing sprite sheets
-* [GIMP](https://www.gimp.org/) - Touch-up of sprites and artwork
+* [BitFontMaker2](http://www.pentacom.jp/pentacom/bitfontmaker2/) - Used to create original EightbyFive font and bitmap
+* [GIMP](https://www.gimp.org/) - Sprites and artwork
 * [Krita](https://krita.org/en/) - Sprites and artwork
 * [XAMPP](https://www.apachefriends.org/index.html) - Web server
 
@@ -47,5 +48,4 @@ DocumentRoot "C:/Users/Your-Name/Documents/GitHub/Tail-Chaser-Phaser-3"
 ### Future Work
 1. Improve sprites and animations.
 2. Adding a screen to set the game difficulty and/or configure kitten spawn rate.
-3. Make game compatible with mobile devices.
-4. Decompose food/water bowl obstacle into smaller rectangles to remove invisible corner.
+3. Decompose food/water bowl obstacle into smaller rectangles to remove invisible corner.
