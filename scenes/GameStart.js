@@ -198,19 +198,9 @@ class GameStart extends Phaser.Scene {
 
     // determines the direction the mother should move based on mouse click or mobile tap
     checkCursorMove() {
-        if (this.input.mousePointer.isDown || this.input.pointer1.isDown) {
-            let cursorX;
-            let cursorY;
-
-            if (this.input.mousePointer.isDown) {
-                cursorX = this.input.mousePointer.downX;
-                cursorY = this.input.mousePointer.downY;
-
-            // pointer1
-            } else {
-                cursorX = this.input.pointer1.downX;
-                cursorY = this.input.pointer1.downY;
-            }
+        if (this.input.activePointer.isDown) {
+            let cursorX = this.input.activePointer.x;
+            let cursorY = this.input.activePointer.y;
 
             if (cursorX < 640 && cursorY < 640) {
                 let absX = Phaser.Math.Difference(cursorX, this.mother.x);
