@@ -32,6 +32,27 @@ class RandomKitten extends CatNode {
         this.type = 'kitten_' + KITTEN_COLOURS[Phaser.Math.Between(0,2)];
         this.setFrame(this.type + '_' + CARDINAL_DIRECTIONS[Phaser.Math.Between(0,3)] + '_0.png');
     }
+
+    // adjusts kitten depth when moving E/W and leader is moving N
+    swapLeaderDepth() {
+        const temp = this.leader.depth;
+        this.leader.depth = this.depth;
+        this.depth = temp;
+    }
+
+    // adjusts kitten direction when moving N/S and leader is moving E/W
+    changeDirectionEW() {
+        this.y = this.leader.y;
+        this.direction = this.leader.direction;
+        this.update();
+    }
+
+    // adjusts kitten direction when moving E/W and leader is moving N/S
+    changeDirectionNW() {
+        this.x = this.leader.x;
+        this.direction = this.leader.direction;
+        this.update();
+    }    
 }
 
 class Mother extends CatNode {
