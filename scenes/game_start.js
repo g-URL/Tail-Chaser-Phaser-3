@@ -284,11 +284,25 @@ class GameStart extends Phaser.Scene {
         }
     }
 
-    // adjusts kitten depth order when mother or kindle changes direction moving north
+    // adjusts kitten depth when moving E/W and leader is moving N
     swapLeaderDepth(cat) {
         const temp = cat.leader.depth;
         cat.leader.depth = cat.depth;
         cat.depth = temp;
+    }
+
+    // adjusts kitten direction when moving N/S and leader is moving E/W
+    changeDirectionEW(cat) {
+        cat.y = cat.leader.y;
+        cat.direction = cat.leader.direction;
+        cat.update();
+    }
+
+    // adjusts kitten direction when moving E/W and leader is moving N/S
+    changeDirectionNW(cat) {
+        cat.x = cat.leader.x;
+        cat.direction = cat.leader.direction;
+        cat.update();
     }
 
     // iterate through kindle to update kittens
@@ -303,7 +317,6 @@ class GameStart extends Phaser.Scene {
             cat.depth = cat.leader.depth - 1;
             if (cat.direction == 'north') {
                 if (cat.leader.direction == 'north') {
-                    //this.swapLeaderDepth(cat);        // if kittens are ever larger and overlap with mother enable this
                     cat.y -= 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'south') {
@@ -311,9 +324,7 @@ class GameStart extends Phaser.Scene {
 
                 } else {
                     if (Phaser.Math.Difference(cat.x, cat.leader.x) > 32) {
-                        cat.y = cat.leader.y;
-                        cat.direction = cat.leader.direction;
-                        cat.update();
+                        this.changeDirectionEW(cat);
 
                     } else {
                         cat.y -= 1 + this.difficulty;
@@ -328,15 +339,12 @@ class GameStart extends Phaser.Scene {
                     this.scene.start('Game Over', String(this.score));
 
                 } else {
-
                     if (cat.leader.direction == 'north') {
                         this.swapLeaderDepth(cat);                     
                     }
 
                     if (Phaser.Math.Difference(cat.y, cat.leader.y) > 32) {
-                        cat.x = cat.leader.x;
-                        cat.direction = cat.leader.direction;
-                        cat.update();
+                        this.changeDirectionNW(cat);
 
                     } else {
                         cat.x += 1 + this.difficulty;
@@ -352,9 +360,7 @@ class GameStart extends Phaser.Scene {
 
                 } else {
                     if (Phaser.Math.Difference(cat.x, cat.leader.x) > 32) {
-                        cat.y = cat.leader.y;
-                        cat.direction = cat.leader.direction;
-                        cat.update();
+                        this.changeDirectionEW(cat);
 
                     } else {
                         cat.y += 1 + this.difficulty;  
@@ -376,9 +382,7 @@ class GameStart extends Phaser.Scene {
                     }
 
                     if (Phaser.Math.Difference(cat.y, cat.leader.y) > 32) {
-                        cat.x = cat.leader.x;
-                        cat.direction = cat.leader.direction;
-                        cat.update();
+                        this.changeDirectionNW(cat);
 
                     } else {
                         cat.x -= 1 + this.difficulty;
