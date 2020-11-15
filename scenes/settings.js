@@ -12,7 +12,8 @@ class Settings extends Phaser.Scene {
     create () {
         this.add.image(320, 320, 'board', 'board.png');
 
-        const title = this.add.text(320, 100, 'SETTINGS', { fontFamily: 'EightbyFive', fontSize: '160px', color: 'black', fontStyle: 'bold' }).setOrigin(0.5);
+        const title = this.add.text(320, 100, 'SETTINGS', { fontFamily: 'EightbyFive', fontSize: '160px', color: 'black', fontStyle: 'bold' })
+            .setOrigin(0.5);
 
         new Button(this, 320, 300, 340, 80, 'DIFFICULTY', 'Menu');
         new Button(this, 320, 400, 340, 80, 'SPAWN RATE', 'Menu');

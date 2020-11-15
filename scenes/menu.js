@@ -14,8 +14,11 @@ class Menu extends Phaser.Scene {
         this.add.image(320, 320, 'board', 'board.png');
 
         // DON'T LIKE THIS - but when I use 'TAIL\nCHASER' there's a large gap between the first and second line
-        const title1 = this.add.text(320, 100, 'TAIL', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center' }).setOrigin(0.5);
-        const title2 = this.add.text(320, 220, 'CHASER', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center' }).setOrigin(0.5);
+        this.add.text(320, 100, 'TAIL', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center' })
+            .setOrigin(0.5);
+
+        this.add.text(320, 220, 'CHASER', { fontFamily: 'EightbyFive', fontSize: '180px', color: 'black', fontStyle: 'bold', align: 'center' })
+            .setOrigin(0.5);
 
         // sleeping mother
         this.anims.create({
@@ -30,7 +33,7 @@ class Menu extends Phaser.Scene {
         //new Button(this, 320, 500, 340, 80, 'SETTINGS', 'Settings');
 
         // low-key prod testing/development
-        const lKey = this.input.keyboard.addKey('L');
-        lKey.on('down', function() { this.scene.start('Settings'); }, this);
+        this.input.keyboard.addKey('L')
+            .on('down', function() { this.scene.start('Settings'); }, this);
     }
 } 

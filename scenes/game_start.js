@@ -18,7 +18,6 @@ class GameStart extends Phaser.Scene {
         this.downKey = undefined;
         this.leftKey = undefined;
         this.rightKey = undefined;
-        this.enterKey = undefined;
 
         this.mother = undefined;
 
@@ -28,7 +27,6 @@ class GameStart extends Phaser.Scene {
     }
 
     preload () {
-        // https://www.codeandweb.com/free-sprite-sheet-packer
         this.load.atlas('board', 'assets/sprites/board.png', 'assets/sprites/board.json');
         this.load.atlas('obstacles', 'assets/sprites/obstacles.png', 'assets/sprites/obstacles.json');
         this.load.atlas('cats', 'assets/sprites/cats.png', 'assets/sprites/cats.json');
@@ -104,7 +102,8 @@ class GameStart extends Phaser.Scene {
         // score
         // https://phaser.io/tutorials/making-your-first-phaser-3-game/part9
         this.score = 0;
-        this.scoreText = this.add.text(640-130, 0+95, 'SCORE: 0', { fontFamily: 'EightbyFive', fontSize: '30px', color: 'black', fontStyle: 'bold', stroke: 'grey', strokeThickness: 3, align: 'center' }).setOrigin(0.5);
+        this.scoreText = this.add.text(640-130, 0+95, 'SCORE: 0', { fontFamily: 'EightbyFive', fontSize: '30px', color: 'black', fontStyle: 'bold', stroke: 'grey', strokeThickness: 3, align: 'center' })
+            .setOrigin(0.5);
 
         // create kitten animations
         this.createAnimations('mother');
@@ -124,8 +123,9 @@ class GameStart extends Phaser.Scene {
         this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        this.enterKey = this.input.keyboard.addKey('ENTER');
-        this.enterKey.on('down', function() { this.scene.start('Game Over', String(this.score)); }, this);
+        // press enter for game over
+        this.input.keyboard.addKey('ENTER')
+            .on('down', function() { this.scene.start('Game Over', String(this.score)); }, this);
 
         // mother
         this.mother = new Mother(this);
@@ -136,18 +136,18 @@ class GameStart extends Phaser.Scene {
         // https://www.thefreedictionary.com/A-clowder-of-cats-30-fancy-names-for-animal-groups.htm
         this.kindle = this.physics.add.group();
 
-        this.obstacles = this.physics.add.group();
-        this.obstacles.addMultiple([this.leftWall,
-                                    this.rightWall,
-                                    this.topWall,
-                                    this.bottomWall,
-                                    this.litter, 
-                                    this.tunnelLeftEdge, 
-                                    this.tunnelRightEdge, 
-                                    this.yarn, 
-                                    this.foodBowl,
-                                    ], 
-                                    this,
+        this.obstacles = this.physics.add.group()
+            .addMultiple([this.leftWall,
+                          this.rightWall,
+                          this.topWall,
+                          this.bottomWall,
+                          this.litter, 
+                          this.tunnelLeftEdge, 
+                          this.tunnelRightEdge, 
+                          this.yarn, 
+                          this.foodBowl,
+                         ], 
+                         this,
         );
 
         // if the mother collides with any obstacles or her kindle then game over
@@ -161,7 +161,7 @@ class GameStart extends Phaser.Scene {
     // add kittens to the board
     addKittens() {
         for (let i = 0; i < this.kittenSpawnRate; i++) {
-            let kitten = new RandomKitten(this, 680, 680);
+            const kitten = new RandomKitten(this, 680, 680);
 
             const obstacleArray = this.obstacles.getChildren();
 
@@ -198,12 +198,12 @@ class GameStart extends Phaser.Scene {
     // determines the direction the mother should move based on activePointer (mouse click or mobile tap)
     checkCursorMove() {
         if (this.input.activePointer.isDown) {
-            let cursorX = this.input.activePointer.x;
-            let cursorY = this.input.activePointer.y;
+            const cursorX = this.input.activePointer.x;
+            const cursorY = this.input.activePointer.y;
 
             if (cursorX < 640 && cursorY < 640) {
-                let absX = Phaser.Math.Difference(cursorX, this.mother.x);
-                let absY = Phaser.Math.Difference(cursorY, this.mother.y);  
+                const absX = Phaser.Math.Difference(cursorX, this.mother.x);
+                const absY = Phaser.Math.Difference(cursorY, this.mother.y);  
 
                 if (absY > absX) {
                     if (cursorY < this.mother.y) {
@@ -226,7 +226,7 @@ class GameStart extends Phaser.Scene {
             }
         }
 
-        return 'n/a';
+        return null;
     }
 
     // analyze keyboard input and update mother's position
@@ -236,7 +236,7 @@ class GameStart extends Phaser.Scene {
         const enoughSteps = this.mother.steps > 32;
 
         // checks for mouse or mobile input
-        let cursorMove = this.checkCursorMove();
+        const cursorMove = this.checkCursorMove();
 
         // if a WASD key/mouse is pressed
         if ((this.wKey.isDown || this.upKey.isDown || (cursorMove == 'north')) && this.mother.direction != 'north' && enoughSteps) {
@@ -284,6 +284,13 @@ class GameStart extends Phaser.Scene {
         }
     }
 
+    // adjusts kitten depth order when mother or kindle changes direction moving north
+    swapLeaderDepth(cat) {
+        const temp = cat.leader.depth;
+        cat.leader.depth = cat.depth;
+        cat.depth = temp;
+    }
+
     // iterate through kindle to update kittens
     updateKindle() {
         // ensure kittens walk through tunnel
@@ -296,13 +303,7 @@ class GameStart extends Phaser.Scene {
             cat.depth = cat.leader.depth - 1;
             if (cat.direction == 'north') {
                 if (cat.leader.direction == 'north') {
-
-                    // swap depth <-- SHOULD MAKE INTO A FUNCTION
-                    let temp = 0;
-                    temp = cat.leader.depth;
-                    cat.leader.depth = cat.depth;
-                    cat.depth = temp;
-
+                    //this.swapLeaderDepth(cat);        // if kittens are ever larger and overlap with mother enable this
                     cat.y -= 1 + this.difficulty;
 
                 } else if (cat.leader.direction == 'south') {
@@ -329,11 +330,7 @@ class GameStart extends Phaser.Scene {
                 } else {
 
                     if (cat.leader.direction == 'north') {
-                        // swap depth
-                        let temp = 0;
-                        temp = cat.leader.depth;
-                        cat.leader.depth = cat.depth;
-                        cat.depth = temp;                        
+                        this.swapLeaderDepth(cat);                     
                     }
 
                     if (Phaser.Math.Difference(cat.y, cat.leader.y) > 32) {
@@ -375,11 +372,7 @@ class GameStart extends Phaser.Scene {
                 } else {
 
                     if (cat.leader.direction == 'north') {
-                        // swap depth
-                        let temp = 0;
-                        temp = cat.leader.depth;
-                        cat.leader.depth = cat.depth;
-                        cat.depth = temp;                        
+                        this.swapLeaderDepth(cat);                      
                     }
 
                     if (Phaser.Math.Difference(cat.y, cat.leader.y) > 32) {
