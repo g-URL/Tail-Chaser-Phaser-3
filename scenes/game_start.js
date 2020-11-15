@@ -76,7 +76,7 @@ class GameStart extends Phaser.Scene {
     }
 
     // place obstacles on board
-    generateObstacles(){
+    generateObstacles() {
         this.topWall = this.physics.add.sprite(320, 0+16, 'obstacles', 'board_edge_top.png');
         this.bottomWall = this.physics.add.sprite(320, 640-16, 'obstacles', 'board_edge_bottom.png');
         this.leftWall = this.physics.add.sprite(0+16, 320, 'obstacles', 'board_edge_left.png');
@@ -92,6 +92,20 @@ class GameStart extends Phaser.Scene {
         this.yarn = this.physics.add.sprite(320+128, 320+128, 'obstacles', 'yarn.png');
 
         this.foodBowl = this.physics.add.sprite(0+116, 640-84, 'obstacles', 'food_bowl.png');
+    }
+
+    // assign keyboard input
+    assignKeys() {
+        // https://youtu.be/7cpZ5Y7THmo?t=918
+        this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+        this.upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        this.downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     }
 
     create () {
@@ -112,16 +126,7 @@ class GameStart extends Phaser.Scene {
         this.createAnimations('kitten_orange');
 
         // keyboard input
-        // https://youtu.be/7cpZ5Y7THmo?t=918
-        this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-
-        this.upKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
-        this.downKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.leftKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.rightKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        this.assignKeys();
 
         // press enter for game over
         this.input.keyboard.addKey('ENTER')
