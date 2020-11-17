@@ -166,9 +166,9 @@ class GameStart extends Phaser.Scene {
     // add kittens to the board
     addKittens() {
         for (let i = 0; i < this.kittenSpawnRate; i++) {
-            const kitten = new RandomKitten(this, 680, 680);
+            let kitten = new RandomKitten(this, 680, 680);
 
-            const obstacleArray = this.obstacles.getChildren();
+            let obstacleArray = this.obstacles.getChildren();
 
             // place kitten such that they don't collide with obstacles or mother/kindle
             let collision = true;
@@ -203,12 +203,12 @@ class GameStart extends Phaser.Scene {
     // determines the direction the mother should move based on activePointer (mouse click or mobile tap)
     checkCursorMove() {
         if (this.input.activePointer.isDown) {
-            const cursorX = this.input.activePointer.x;
-            const cursorY = this.input.activePointer.y;
+            let cursorX = this.input.activePointer.x;
+            let cursorY = this.input.activePointer.y;
 
             if (cursorX < 640 && cursorY < 640) {
-                const absX = Phaser.Math.Difference(cursorX, this.mother.x);
-                const absY = Phaser.Math.Difference(cursorY, this.mother.y);  
+                let absX = Phaser.Math.Difference(cursorX, this.mother.x);
+                let absY = Phaser.Math.Difference(cursorY, this.mother.y);  
 
                 if (absY > absX) {
                     if (cursorY < this.mother.y) {
@@ -238,10 +238,10 @@ class GameStart extends Phaser.Scene {
     updateMotherPosition() {
         // enoughSteps is used to ensure mother only changes directions if she has moved at least her pixel width/height
         // otherwise, kittens will clip and behave strangely
-        const enoughSteps = this.mother.steps > 32;
+        let enoughSteps = this.mother.steps > 32;
 
         // checks for mouse or mobile input
-        const cursorMove = this.checkCursorMove();
+        let cursorMove = this.checkCursorMove();
 
         // if a WASD key/mouse is pressed
         if ((this.wKey.isDown || this.upKey.isDown || (cursorMove == 'north')) && this.mother.direction != 'north' && enoughSteps) {
@@ -378,10 +378,10 @@ class GameStart extends Phaser.Scene {
 
     // if a mother picks up a kitten remove from kittens group and add to kindle group
     addToKindle() {
-        const kitten_array = this.kittens.getChildren();
+        let kitten_array = this.kittens.getChildren();
 
         for (let i = 0; i < this.kittens.getLength(); i++) {
-            const kitten = kitten_array[i];
+            let kitten = kitten_array[i];
 
             if (this.physics.collide(kitten, this.mother, null, null, this)) {
                 this.kittens.remove(kitten);

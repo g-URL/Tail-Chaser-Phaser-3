@@ -35,7 +35,7 @@ class RandomKitten extends CatNode {
 
     // adjusts kitten depth when moving E/W and leader is moving N
     swapLeaderDepth() {
-        const temp = this.leader.depth;
+        let temp = this.leader.depth;
         this.leader.depth = this.depth;
         this.depth = temp;
     }
