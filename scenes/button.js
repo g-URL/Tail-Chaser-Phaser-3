@@ -1,5 +1,5 @@
-const black = 0x000000;
-const white = 0xffffff;
+const BLACK = 0x000000;
+const WHITE = 0xffffff;
 
 class Button extends Phaser.GameObjects.Rectangle {
     constructor(scene, x, y, width, height, input, action, fillColor, fillAlpha=1) {
@@ -52,15 +52,15 @@ class Button extends Phaser.GameObjects.Rectangle {
     }
 
     setBlack() {
-        this.setFillStyle(black, 1)
-            .setStrokeStyle(2, white, 1);
+        this.setFillStyle(BLACK, 1)
+            .setStrokeStyle(2, WHITE, 1);
 
         this.text.setColor('white');
     }
 
     setWhite() {
-        this.setFillStyle(white, 1)
-            .setStrokeStyle(2, black, 1);
+        this.setFillStyle(WHITE, 1)
+            .setStrokeStyle(2, BLACK, 1);
 
         this.text.setColor('black');
     }
