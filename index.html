@@ -1,36 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <!--
+    Tools/Acknowledgements: 
+        Sprite Sheet Packer: https://www.codeandweb.com/free-sprite-sheet-packer 
+        Font: original EightbyFive font created with BitFontMaker2: http://www.pentacom.jp/pentacom/bitfontmaker2/
+        Boiler Plate: https://youtu.be/7cpZ5Y7THmo
+        LinkedIn Post Inspector: https://www.linkedin.com/post-inspector/inspect/
+    -->
+
     <meta charset='UTF-8'>
-    <meta name="viewport" content="width=device-width">
+
     <title>Tail Chaser</title>
+
+    <!-- Meta: -->
+    <meta name="viewport" content="width=device-width">
     <meta name="type" content="article" />
     <meta name="title" content="Tail Chaser"/>
     <meta name="description" content="A snake game, but with cats!"/>
-    <meta name="image" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png"/>
+    <meta name="image" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png?dummy=8484744"/>
+    <meta name="author" content="g-URL"/>
     <meta property="og:type" content="article"/>
     <meta property="og:title" content="Tail Chaser"/>
     <meta property="og:description" content="A snake game, but with cats!"/>
-    <meta property="og:image" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png"/>
-    <meta property="og:image:secure_url" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png"/>
-    <meta property="og:image:secure" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png"/>
+    <meta property="og:image" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png?dummy=8484744"/>
+    <meta property="og:image:secure_url" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png?dummy=8484744"/>
+    <meta property="og:image:secure" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png?dummy=8484744"/>
     <meta property="og:image:width" content="640" />
     <meta property="og:image:height" content="640" />
     <meta name="twitter:title" content="Tail Chaser">
     <meta name="twitter:description" content="A snake game, but with cats!">
-    <meta name="twitter:image" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png">
+    <meta name="twitter:image" content="https://g-url.github.io/Tail-Chaser-Phaser-3/og.png?dummy=8484744">
     <meta name="twitter:card" content="summary">
 
-
     <!--
-        <acknowledgements>
-            Sprite Sheet Packer: https://www.codeandweb.com/free-sprite-sheet-packer 
-            Font: original EightbyFive font created with BitFontMaker2: http://www.pentacom.jp/pentacom/bitfontmaker2/
-            Boiler Plate: https://youtu.be/7cpZ5Y7THmo
-        </acknowledgements>
-    -->
-
-
+    Favicons:
+        https://realfavicongenerator.net/
+        https://www.emergeinteractive.com/insights/detail/the-essentials-of-favicons/ -->
+    <link rel='icon' href='favicon-16.png' sizes='16x16'/>
+    <link rel='icon' href='favicon-32.png' sizes='32x32'/>
+    <link rel='icon' href='favicon-128.png' sizes='128x128'/>
+    <link rel='icon' href='favicon-152.png' sizes='152x152'/>
+    <link rel='icon' href='favicon-167.png' sizes='167x167'/>
+    <link rel='icon' href='favicon-180.png' sizes='180x180'/>
+    <link rel='icon' href='favicon-192.png' sizes='192x192'/>
+    <link rel='icon' href='favicon-196.png' sizes='196x196'/>
 
     <!-- this can (should?) go in a css file instead -->
     <!-- https://learn.yorkcs.com/2019/09/28/phaser-3-basics-custom-fonts/ -->
@@ -47,24 +61,10 @@
     https://stackoverflow.com/questions/52001243/how-to-use-a-external-font-using-bitmaptext-or-text-in-phaser-3 -->
     <span style='font-family:"EightbyFive"'></span>
 
-    <!-- Favicons
-         https://realfavicongenerator.net/
-         https://www.emergeinteractive.com/insights/detail/the-essentials-of-favicons/ -->
-
-    <link rel='icon' href='favicon-16.png' sizes='16x16'/>   
-    <link rel='icon' href='favicon-32.png' sizes='32x32'/>
-    <link rel='icon' href='favicon-128.png' sizes='128x128'/>
-    <link rel='icon' href='favicon-152.png' sizes='152x152'/>
-    <link rel='icon' href='favicon-167.png' sizes='167x167'/>
-    <link rel='icon' href='favicon-180.png' sizes='180x180'/>
-    <link rel='icon' href='favicon-192.png' sizes='192x192'/>
-    <link rel='icon' href='favicon-196.png' sizes='196x196'/>
-
-
-
     <!-- CDN: https://www.jsdelivr.com/package/gh/photonstorm/phaser?version=3.24.1&path=dist -->
     <script src='https://cdn.jsdelivr.net/gh/photonstorm/phaser@3.24.1/dist/phaser.min.js'></script>
     
+    <!-- Scenes: -->
     <script src='scenes/menu.js'></script>
     <script src='scenes/button.js'></script>
     <script src='scenes/settings.js'></script>
